@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Project Manual - Mercedes-Benz UI</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #000;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #0046ad;
+            margin-top: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            color: #444;
+            margin-top: 25px;
+        }
+
+        img {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        .page-break {
+            page-break-after: always;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <img src="../public/assets/MercBenzLogo.png" style="width: 80px; border: none; box-shadow: none;"
+            alt="Mercedes Logo">
+        <h1>Mercedes-Benz India Digital Assembly Platform</h1>
+        <h2>User Manual & Technical Documentation</h2>
+    </div>
+
+    <div class="meta">
+        <strong>Date:</strong> December 18, 2025<br>
+        <strong>Version:</strong> 1.0.0<br>
+        <strong>Confidentiality:</strong> Internal Use Only
+    </div>
+
+    <h2>1. Introduction</h2>
+    <p>This document serves as the comprehensive guide for the Mercedes-Benz India Digital Assembly Platform. The system
+        is designed to provide real-time visibility into production metrics, manage operational shifts, and secure
+        sensitive audit logs.</p>
+
+    <h2>2. System Access</h2>
+    <h3>Login Screen</h3>
+    <p>The entry point to the application is secured via a dedicated Login interface. Users must authenticate with their
+        registered Email and Password.</p>
+    <ul>
+        <li><strong>Admin Access:</strong> Can view all modules.</li>
+        <li><strong>User Access:</strong> Restricted to dashboard and andon screens.</li>
+    </ul>
+    <img src="assets/login.png" alt="Login Page">
+
+    <div class="page-break"></div>
+
+    <h2>3. Dashboard</h2>
+    <p>Upon successful login, users are greeted with the main Dashboard. This screen aggregates critical data from
+        across the factory floor.</p>
+    <ul>
+        <li><strong>Top Charts:</strong> Display alarm counts categorized by stakeholder (Logistics, Quality, etc.).
+        </li>
+        <li><strong>Interactive Elements:</strong> Hover over data points to see precise values and timestamps.</li>
+    </ul>
+    <img src="assets/dashboard.png" alt="Main Dashboard_">
+
+    <div class="page-break"></div>
+
+    <h2>4. Navigation System</h2>
+    <h3>Sidebar Menu</h3>
+    <p>The application features a collapsible sidebar with a premium video background. It categorizes functions into:
+    </p>
+    <ul>
+        <li><strong>Andon:</strong> Production line monitors.</li>
+        <li><strong>Breakdown:</strong> Incident reporting.</li>
+        <li><strong>Management:</strong> Administrative configuration.</li>
+        <li><strong>Reports:</strong> Historical data and audits.</li>
+        <li><strong>Authorization:</strong> (Admin Only) User management.</li>
+    </ul>
+    <img src="assets/sidebar.png" alt="Sidebar Navigation">
+
+    <div class="page-break"></div>
+
+    <h2>5. Operational Screens (Andon)</h2>
+    <p>The Andon screens provide high-visibility metrics for the shop floor.</p>
+    <h3>Trim 4 Overview</h3>
+    <p>Displays real-time target vs. actuals, takt time, and live status.</p>
+    <img src="assets/andon_trim4.png" alt="Andon Trim 4">
+
+    <div class="page-break"></div>
+
+    <h2>6. Administration & Security</h2>
+    <h3>Audit Trail</h3>
+    <p><strong>Restricted Area:</strong> Only accessible to Administrators.</p>
+    <p>The Audit Trail records every interaction within the system. It features:</p>
+    <ul>
+        <li>Timestamped logs.</li>
+        <li>User identiy verification.</li>
+        <li>Action categorization (Login, Navigate, Update).</li>
+        <li><strong>Excel Export:</strong> One-click download of reports.</li>
+    </ul>
+    <img src="assets/audit_trail.png" alt="Audit Trail Report">
+
+    <h3>Access Matrix</h3>
+    <p>Allows admins to control granular permissions for every user in the system.</p>
+    <img src="assets/access_matrix.png" alt="Access Matrix">
+
+    <h2>7. Technical Details</h2>
+    <ul>
+        <li><strong>Framework:</strong> React.js</li>
+        <li><strong>Architecture:</strong> Component-based with localized Context state.</li>
+        <li><strong>Auto-Save:</strong> Logs are automatically archived to the server every hour.</li>
+    </ul>
+
+</body>
+
+</html>

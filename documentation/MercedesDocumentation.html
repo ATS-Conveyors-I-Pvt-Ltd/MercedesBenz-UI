@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercedes-Benz Digital Experience</title>
+    <!-- Mermaid.js -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+    <style>
+        /* 
+           PREMIUM IMMERSIVE STYLE 
+        */
+        :root {
+            --primary-black: #000000;
+            --glass-panel: rgba(10, 10, 10, 0.65);
+            /* More transparent for immersion */
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-muted: #b0b0b0;
+            --accent-blue: #00b0f0;
+            --font-stack: 'Segoe UI Light', 'Helvetica Neue', Arial, sans-serif;
+            --container-width: 1400px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--primary-black);
+            color: var(--text-main);
+            font-family: var(--font-stack);
+            overflow-x: hidden;
+            /* Prevents horizontal scroll */
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        /* LOADER OVERLAY */
+        #loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        #loader-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Ensures video fills screen */
+        }
+
+        /* GLOBAL FIXED BACKGROUND VIDEO */
+        #global-video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -10;
+            opacity: 0.4;
+        }
+
+        /* ----- HEADER ----- */
+        .mb-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 25px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+            transition: background 0.4s ease, padding 0.4s ease;
+        }
+
+        .mb-header.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 15px 60px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-logo img {
+            height: 50px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 40px;
+            text-transform: uppercase;
+            font-size: 0.75em;
+            letter-spacing: 2px;
+            position: relative;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--accent-blue);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* ----- HERO (FULLSCREEN) ----- */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            z-index: 2;
+            text-align: center;
+            transform: translateY(50px);
+            opacity: 0;
+            animation: heroReveal 1.5s cubic-bezier(0.2, 1, 0.3, 1) forwards 0.5s;
+        }
+
+        .hero h1 {
+            font-size: 6vw;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 15px;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5em;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            margin-top: 20px;
+        }
+
+        /* ----- IMMERSIVE CONTENT SECTIONS ----- */
+        .immersive-section {
+            position: relative;
+            min-height: 100vh;
+            padding: 150px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: var(--container-width);
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Glass Cards */
+        .glass-panel {
+            background: var(--glass-panel);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            padding: 80px;
+            border-radius: 8px;
+            margin-bottom: 100px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Typography */
+        h2 {
+            font-size: 3.5em;
+            font-weight: 200;
+            margin-bottom: 50px;
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 2em;
+            font-weight: 300;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-blue);
+            padding-left: 20px;
+        }
+
+        p,
+        li {
+            font-size: 1.2em;
+            color: #ccc;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        /* Media - ZOOM ON HOVER (FIXED OVERSCROLL) */
+        .cinematic-img {
+            width: 100%;
+            display: block;
+            border-radius: 4px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            margin: 40px 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* The effect: Reduced scale to keep within browser bounds */
+        .cinematic-img:hover {
+            transform: scale(1.3);
+            /* Safe zoom that won't clip off-screen */
+            z-index: 999;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .img-grid-full {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 80px;
+            margin-top: 50px;
+        }
+
+        .img-label {
+            text-align: center;
+            font-size: 0.9em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            margin-top: 15px;
+            margin-bottom: 60px;
+        }
+
+        /* Mermaid */
+        .mermaid {
+            background: transparent;
+            text-align: center;
+            margin: 50px 0;
+            transform: scale(1.1);
+        }
+
+        /* Side Navigation Dots */
+        .side-nav {
+            position: fixed;
+            right: 40px;
+            top: 40%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .side-nav a {
+            width: 12px;
+            height: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .side-nav a.active {
+            background: #fff;
+            border-color: #fff;
+            transform: scale(1.4);
+        }
+
+        .side-nav a:hover {
+            border-color: #fff;
+        }
+
+        /* Animations */
+        @keyframes heroReveal {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- VIDEO LOADER (Starts immediately, auto-dismisses) -->
+    <div id="loader-overlay">
+        <video id="loader-video" autoplay muted playsinline>
+            <source src="./assets/loader.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- VIDEO BACKGROUNDS LAYER -->
+    <!-- Global Persistent Background Video (Loop 2) -->
+    <video id="global-video-bg" muted loop playsinline>
+        <source src="./assets/global_loop.mp4" type="video/mp4">
+    </video>
+
+    <!-- HEADER -->
+    <header class="mb-header">
+        <div class="header-logo">
+            <img src="./assets/mercedezbenzfulllogo.jpg" alt="Mercedes-Benz">
+        </div>
+        <nav class="nav-links">
+            <a href="#hero">Home</a>
+            <a href="#workflow">Workflow</a>
+            <a href="#auth">Auth</a>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#andon">Andon</a>
+            <a href="#breakdown">Breakdown</a>
+            <a href="#admin">Admin</a>
+            <a href="#structure">Tech</a>
+        </nav>
+    </header>
+
+    <!-- SIDE NAV -->
+    <div class="side-nav">
+        <a href="#hero" class="active"></a>
+        <a href="#workflow"></a>
+        <a href="#auth"></a>
+        <a href="#dashboard"></a>
+        <a href="#andon"></a>
+        <a href="#breakdown"></a>
+        <a href="#admin"></a>
+        <a href="#structure"></a>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <!-- Dedicated Hero Video (Trailer) -->
+        <video class="hero-video" muted loop playsinline id="hero-vid">
+            <source src="./assets/hero_trailer.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Digital Assembly<br>Platform</h1>
+            <div class="hero-subtitle">Future of Production | v1.3.0</div>
+            <p style="margin-top: 30px; opacity: 0.8;">Integrated • Intelligent • Immersive</p>
+        </div>
+    </section>
+
+    <!-- SECTION 1: WORKFLOW -->
+    <section id="workflow" class="immersive-section">
+        <div class="container reveal">
+            <div class="glass-panel">
+                <h2>1. System Architecture</h2>
+                <p>A comprehensive overview of the User Journey and Data Flow.</p>
+                <div class="mermaid">
+                    graph TD
+                    Start([App Launch]) --> Auth{Authenticated?}
+                    Auth -- No --> Login[Login Route]
+                    Auth -- Yes --> Role{Check Role}
+                    Role -->|Admin| AdminDash[Admin Dashboard]
+                    Role -->|Supervisor| SuperDash[Supervisor View]
+                    Role -->|Viewer| ViewDash[Viewer Mode]
+
+                    AdminDash --> Modules[Modules]
+                    Modules --> Andon[Andon System]
+                    Modules --> Breakdown[Breakdown Mgmt]
+                    Modules --> Reports[Audit & Reports]
+
+                    style Start fill:#f9f9f9,stroke:#333,color:#333
+                    style Login fill:#333,stroke:#fff,color:#fff
+                    style Role fill:#00b0f0,stroke:#333,color:#000
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: AUTHENTICATION -->
+    <section id="auth" class="immersive-section">
+        <div class="container reveal">
+            <div class="glass-panel">
+                <h2>2. Authentication</h2>
+                <p>Secure, Role-Based Access Control acting as the digital gateway.</p>
+
+                <h3>Login Interface</h3>
+                <img src="./assets/login.png" class="cinematic-img" alt="Login">
+                <p>The entry point utilizes JWT tokens for session management, ensuring secure access to production
+                    data.</p>
+
+                <h3>Self-Service Registration</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                    <div>
+                        <img src="./assets/signup_page.png" class="cinematic-img" alt="Signup">
+                        <div class="img-label">User Signup</div>
+                    </div>
+                    <div>
+                        <img src="./assets/signup_waiting_approval.png" class="cinematic-img" alt="Pending">
+                        <div class="img-label">Approval Queue</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: DASHBOARD -->
+    <section id="dashboard" class="immersive-section" style="background: transparent;">
+        <div class="container reveal">
+            <div class="glass-panel">
+                <h2>3. Executive Dashboard</h2>
+                <p>The central command center utilizing <strong>Recharts</strong> for high-fidelity data visualization.
+                </p>
+
+                <img src="./assets/dashboard.png" class="cinematic-img" alt="Dashboard">
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px;">
+                    <div>
+                        <h3>Real-Time Metrics</h3>
+                        <ul>
+                            <li>Live Alarm Counters per shop</li>
+                            <li>Production Target vs Actuals</li>
+                            <li>Shift Efficiency Trends</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Stakeholder Analysis</h3>
+                        <ul>
+                            <li>Downtime breakdown by department</li>
+                            <li>Top 5 bottleneck identification</li>
+                            <li>Historical trend comparison</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: ANDON SYSTEM -->
+    <section id="andon" class="immersive-section">
+        <div class="container reveal">
+            <div class="glass-panel" style="width: 100%;">
+                <h2>4. Andon System</h2>
+                <p>Digital signaling for real-time production status. Displayed on large-format monitors on the shop
+                    floor.</p>
+
+                <div class="img-grid-full">
+                    <!-- Showing LARGE screenshots for immersion -->
+                    <div>
+                        <img src="./assets/andon_trim4.png" class="cinematic-img" alt="Trim 4">
+                        <div class="img-label">Station: Trim Line 4</div>
+                    </div>
+                    <div>
+                        <img src="./assets/andon_mech3.png" class="cinematic-img" alt="Mech 3">
+                        <div class="img-label">Station: Mechanical Line 3</div>
+                    </div>
+                    <div>
+                        <img src="./assets/andon_finish1.png" class="cinematic-img" alt="Finish 1">
+                        <div class="img-label">Station: Finish Line 1</div>
+                    </div>
+                    <div>
+                        <img src="./assets/andon_cart_mech.png" class="cinematic-img" alt="Cart Mech">
+                        <div class="img-label">Detail: Shopping Cart View</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: BREAKDOWN MANAGEMENT -->
+    <section id="breakdown" class="immersive-section">
+        <div class="container reveal">
+            <div class="glass-panel">
+                <h2>5. Breakdown Management</h2>
+                <p>Incident reporting and resolution tracking.</p>
+
+                <h3>Reporting Workflow</h3>
+                <div
+                    style="background: rgba(0,176,240,0.1); padding: 30px; border-left: 5px solid #00b0f0; margin-bottom: 50px;">
+                    <p style="color:#fff; margin:0;"><strong>Scenario:</strong> Operator detects line stoppage -> Logs
+                        Incident -> Maintenance Notified -> Rectified -> Line Resumes (Auto-logged).</p>
+                </div>
+
+                <div class="img-grid-full">
+                    <div>
+                        <img src="./assets/sidebar_breakdown.png" class="cinematic-img" alt="Sidebar breakdown">
+                        <div class="img-label">Navigation & Status</div>
+                    </div>
+                    <div>
+                        <img src="./assets/breakdown_trim4.png" class="cinematic-img" alt="Trim 4 Breakdown">
+                        <div class="img-label">Incident Log: Trim 4</div>
+                    </div>
+                    <div>
+                        <img src="./assets/breakdown_mech4.png" class="cinematic-img" alt="Mech 4 Breakdown">
+                        <div class="img-label">Incident Log: Mech 4</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: ADMIN & AUDIT -->
+    <section id="admin" class="immersive-section" style="background: transparent;">
+        <div class="container reveal">
+            <div class="glass-panel">
+                <h2>6. Admin Controls & Audit</h2>
+
+                <h3>Access Matrix</h3>
+                <p>Granular permission management for all system users.</p>
+                <img src="./assets/access_matrix.png" class="cinematic-img" alt="Access Matrix">
+
+                <h3 style="margin-top: 80px;">Audit Trail</h3>
+                <p>Immutable logs for compliance and traceability.</p>
+                <img src="./assets/audit_trail.png" class="cinematic-img" alt="Audit Trail">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7: STRUCTURE -->
+    <section id="structure" class="immersive-section">
+        <div class="container reveal">
+            <div class="glass-panel">
+                <h2>7. Technical Architecture</h2>
+                <p>Full-stack implementation details.</p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 40px;">
+                    <div style="background: #111; padding: 40px; border-radius: 8px; border: 1px solid #333;">
+                        <h3 style="margin-top: 0; border: none;">File System</h3>
+                        <pre style="font-family: monospace; color: #00b0f0; font-size: 0.9em; overflow-x: auto;">
+mercedes-benz-react-app/
+├── 📄 server.js
+├── 📁 src/
+│   ├── 📁 context/
+│   ├── 📁 layouts/
+│   ├── 📁 pages/
+│   │   ├── 📁 Auth/
+│   │   ├── 📁 Dashboard/
+│   │   ├── 📁 Andon/
+│   │   └── 📁 Reports/
+                        </pre>
+                    </div>
+                    <div>
+                        <h3 style="margin-top: 0; border: none;">Tech Stack</h3>
+                        <ul style="list-style: none;">
+                            <li style="margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                                <strong style="color:#fff;">Frontend:</strong> React (Vite), Recharts, Tailwind Support
+                            </li>
+                            <li style="margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                                <strong style="color:#fff;">Backend:</strong> Node.js, Express</li>
+                            <li style="margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                                <strong style="color:#fff;">Data:</strong> Local JSON Persistence (Audit), SQL Ready
+                            </li>
+                            <li style="margin-bottom: 20px; padding-bottom: 10px;"><strong
+                                    style="color:#fff;">Design:</strong> Glassmorphism, Dark UI, Responsive</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 50px; text-align: center; opacity: 0.5; font-size: 0.8em;">
+        &copy; 2025 Mercedes-Benz India | Digital Assembly Platform
+    </footer>
+
+    <script>
+        function enterExperience() {
+            const loader = document.getElementById('loader-overlay');
+            const heroVid = document.getElementById('hero-vid');
+            const globalVid = document.getElementById('global-video-bg');
+
+            // Fade out loader
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+
+            // Force play video backgrounds
+            heroVid.muted = true;
+            heroVid.play().catch(e => console.log('Hero video error:', e));
+
+            globalVid.muted = true;
+            globalVid.play().catch(e => console.log('Global video error:', e));
+        }
+
+        // AUTO-TRANSITION LOGIC
+        const loaderVideo = document.getElementById('loader-video');
+        if (loaderVideo) {
+            // When loader video ends, enter experience automatically
+            loaderVideo.addEventListener('ended', () => {
+                enterExperience();
+            });
+
+            // Fallback: If video doesn't play automatically (some browsers), click to enter
+            loaderVideo.addEventListener('click', () => {
+                enterExperience();
+            });
+        }
+
+        // Immersive Background Logic
+        const observerOptions = {
+            threshold: 0.2 // Trigger when 20% of section is visible
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Activate Animations
+                    const reveal = entry.target.querySelector('.reveal');
+                    if (reveal) reveal.classList.add('active');
+
+                    // Handle Nav Active State
+                    const id = entry.target.getAttribute('id');
+                    document.querySelectorAll('.side-nav a').forEach(a => {
+                        a.classList.remove('active');
+                        if (a.getAttribute('href') === '#' + id) a.classList.add('active');
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.immersive-section, .hero').forEach(s => observer.observe(s));
+
+        // Header Scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.mb-header');
+            if (window.scrollY > 100) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+
+    </script>
+</body>
+
+</html>

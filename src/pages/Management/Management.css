@@ -1,0 +1,385 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* --- LAYOUT CONTAINER --- */
+.management-container {
+    width: 100%;
+    height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    background-color: #f4f6f9;
+    /* Slightly cooler grey for modern feel */
+    font-family: 'Inter', sans-serif;
+    color: #333;
+}
+
+/* --- HEADER SECTION --- */
+.management-header {
+    background: #ffffff;
+    padding: 16px 32px;
+    border-bottom: 1px solid #e1e4e8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    z-index: 10;
+}
+
+.header-title-section h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #111827;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-subtitle {
+    font-size: 13px;
+    color: #6b7280;
+    font-weight: 500;
+    text-transform: none;
+    background: #f3f4f6;
+    padding: 4px 10px;
+    border-radius: 999px;
+    /* Capsule shape */
+    letter-spacing: 0;
+}
+
+.header-brand {
+    font-family: 'Times New Roman', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #002b49;
+    opacity: 0.9;
+}
+
+/* --- TABS --- */
+.management-tabs {
+    display: flex;
+    gap: 4px;
+    /* Space between tabs */
+    background: #ffffff;
+    padding: 0 32px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tab-button {
+    position: relative;
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    /* Align with border-bottom */
+}
+
+.tab-button:hover {
+    color: #111827;
+    background-color: #f9fafb;
+    border-radius: 6px 6px 0 0;
+}
+
+.tab-button.active {
+    color: #0078d7;
+    border-bottom: 2px solid #0078d7;
+    font-weight: 600;
+}
+
+/* --- FILTER BAR --- */
+.management-filters {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 32px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.filter-input,
+.filter-select {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #1f2937;
+    outline: none;
+    transition: all 0.2s;
+    background-color: #fff;
+    min-width: 150px;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+    border-color: #0078d7;
+    box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.1);
+}
+
+.search-btn {
+    background-color: #111827;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-btn:hover {
+    background-color: #000;
+    transform: translateY(-1px);
+}
+
+.submit-btn-top {
+    margin-left: auto;
+    background-color: #002b49;
+    color: white;
+    border: none;
+    padding: 9px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    box-shadow: 0 2px 5px rgba(0, 43, 73, 0.2);
+}
+
+.submit-btn-top:hover {
+    background-color: #001f35;
+}
+
+/* --- MAIN CONTENT & TABLE --- */
+.management-content {
+    padding: 32px;
+    flex-grow: 1;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    /* Center table max-width */
+}
+
+/* Wrapper to constrain huge tables on huge screens */
+.table-wrapper {
+    width: 100%;
+    max-width: 1400px;
+}
+
+.management-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    /* For border radius */
+}
+
+.management-table thead {
+    background: #f8fafc;
+}
+
+.management-table thead th {
+    padding: 16px 24px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    color: #4b5563;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* Specific column alignment classes */
+.management-table th.text-center,
+.management-table td.text-center {
+    text-align: center;
+}
+
+.management-table th.text-right,
+.management-table td.text-right {
+    text-align: right;
+}
+
+.management-table th.col-id {
+    width: 40px;
+    text-align: center;
+}
+
+.management-table th.col-action {
+    width: 100px;
+    text-align: center;
+}
+
+.management-table td.col-id {
+    text-align: center;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.management-table tbody tr {
+    transition: background-color 0.1s ease;
+}
+
+.management-table tbody tr:not(:last-child) td {
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.management-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.management-table td {
+    padding: 16px 24px;
+    font-size: 14px;
+    color: #1f2937;
+    vertical-align: middle;
+}
+
+/* --- FORM ELEMENTS IN TABLE --- */
+.table-input {
+    width: 100%;
+    max-width: 200px;
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.table-input:focus {
+    border-color: #0078d7;
+    box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.1);
+}
+
+/* --- ACTION BUTTONS --- */
+.action-btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.action-btn {
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.action-btn.edit {
+    background-color: #e0f2fe;
+    color: #0284c7;
+}
+
+.action-btn.edit:hover {
+    background-color: #bae6fd;
+    transform: translateY(-1px);
+}
+
+.action-btn.delete {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+.action-btn.delete:hover {
+    background-color: #fecaca;
+    transform: translateY(-1px);
+}
+
+.action-icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* --- TOGGLE SWITCH --- */
+.toggle-switch {
+    display: flex;
+    background: #f1f5f9;
+    padding: 3px;
+    border-radius: 8px;
+    width: fit-content;
+    margin: 0 auto;
+    /* Center in cell */
+}
+
+.toggle-btn {
+    border: none;
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 6px;
+    background: transparent;
+    color: #94a3b8;
+    transition: all 0.2s ease;
+}
+
+.toggle-btn:hover {
+    color: #64748b;
+}
+
+.toggle-btn.selected {
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.toggle-btn.selected.green-text {
+    color: #10b981;
+}
+
+.toggle-btn.selected.red-text {
+    color: #ef4444;
+}
+
+/* --- FOOTER --- */
+.management-footer {
+    background: #ffffff;
+    padding: 12px 32px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.iprod-logo {
+    font-weight: 700;
+    color: #002b49;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}

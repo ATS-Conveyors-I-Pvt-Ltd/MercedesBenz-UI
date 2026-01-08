@@ -1,0 +1,11 @@
+@import './Management.css';
+
+/* Specific Station styles */
+.action-btn-black {
+    background: #000;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+}

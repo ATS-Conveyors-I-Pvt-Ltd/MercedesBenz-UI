@@ -1,0 +1,27 @@
+@import './Management.css';
+
+.toggle-switch {
+    display: inline-flex;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.toggle-btn {
+    padding: 2px 8px;
+    font-size: 11px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.toggle-btn.on {
+    background-color: #00bcd4;
+    /* Cyan blue from screenshot */
+    color: white;
+}
+
+.toggle-btn.off {
+    background-color: #fff;
+    color: #ccc;
+}

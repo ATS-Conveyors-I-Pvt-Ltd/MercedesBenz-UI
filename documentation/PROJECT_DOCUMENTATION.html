@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doc-Mercedes-Benz Documentation</title>
+    <!-- Mermaid.js for Flowcharts -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        /* Base Reset */
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* ---------------------------------------------------------
+           1. Fixed Header (Black, Premium)
+           --------------------------------------------------------- */
+        .doc-header {
+            background-color: #000;
+            color: #fff;
+            height: 70px;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2000;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .mb-logo {
+            height: 70px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .brand-text {
+            font-size: 1.5em;
+            font-weight: 300;
+            letter-spacing: 1px;
+            font-family: serif;
+            color: #fff;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9em;
+            color: #ccc;
+        }
+
+        .ats-logo {
+            height: 35px;
+            background: #fff;
+            padding: 2px;
+            border-radius: 4px;
+        }
+
+        /* ---------------------------------------------------------
+           2. Layout Container (Sidebar + Content)
+           --------------------------------------------------------- */
+        .layout-container {
+            display: flex;
+            margin-top: 70px;
+            /* Offset for fixed header */
+            min-height: calc(100vh - 70px);
+        }
+
+        /* ---------------------------------------------------------
+           3. Sidebar Navigation (Left TOC)
+           --------------------------------------------------------- */
+        .sidebar {
+            width: 280px;
+            background-color: #fff;
+            border-right: 1px solid #e9ecef;
+            position: fixed;
+            top: 70px;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+            padding: 30px 20px;
+            z-index: 1000;
+        }
+
+        .sidebar h2 {
+            font-size: 1.2em;
+            margin-top: 0;
+            color: #000;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: #555;
+            font-size: 0.95em;
+            display: block;
+            padding: 5px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .sidebar a:hover {
+            background-color: #f0f4f8;
+            color: #007bff;
+        }
+
+        .sidebar ul ul {
+            padding-left: 15px;
+            margin-top: 5px;
+            border-left: 2px solid #eee;
+        }
+
+        /* ---------------------------------------------------------
+           4. Main Content Area
+           --------------------------------------------------------- */
+        .main-content {
+            flex-grow: 1;
+            margin-left: 280px;
+            /* Width of sidebar */
+            padding: 40px 60px;
+            background-color: #fff;
+            max-width: 1200px;
+        }
+
+        /* ---------------------------------------------------------
+           5. Content Styles
+           --------------------------------------------------------- */
+        h1 {
+            color: #000;
+            font-size: 2.8em;
+            margin-bottom: 0.2em;
+            border-bottom: 3px solid #000;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h2 {
+            color: #000;
+            font-size: 2.2em;
+            margin-top: 50px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #333;
+            font-size: 1.8em;
+            margin-top: 40px;
+            border-left: 5px solid #007bff;
+            padding-left: 15px;
+        }
+
+        h4 {
+            color: #555;
+            font-size: 1.4em;
+            margin-top: 30px;
+            font-weight: 600;
+        }
+
+        p,
+        li {
+            font-size: 1.1em;
+            color: #444;
+        }
+
+        /* Components */
+        .image-container {
+            margin: 30px 0;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border: 1px solid #eee;
+        }
+
+        .image-caption {
+            padding-top: 15px;
+            font-style: italic;
+            color: #666;
+            font-size: 1em;
+            text-align: center;
+        }
+
+        .step-box {
+            background-color: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .interaction-guide {
+            background-color: #f3f0ff;
+            border-left: 5px solid #6610f2;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .info-box {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .mermaid {
+            text-align: center;
+            margin: 40px 0;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+
+        .icon-label {
+            font-family: monospace;
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- FIXED HEADER -->
+    <header class="doc-header">
+        <div class="header-left">
+            <img src="./assets/mercedezbenzfulllogo.jpg" alt="Mercedes-Benz Logo" class="mb-logo">
+        </div>
+        <div class="header-right">
+            <span>Developed by</span>
+            <img src="./assets/ATS_Logo.png" alt="ATS Logo" class="ats-logo">
+        </div>
+    </header>
+
+    <!-- LAYOUT CONTAINER -->
+    <div class="layout-container">
+
+        <!-- LEFT SIDEBAR (TOC) -->
+        <nav class="sidebar">
+            <h2>Contents</h2>
+            <ul>
+                <li><a href="#workflow">1. System Workflow Diagram</a></li>
+                <li><a href="#login">2. Login & Authentication</a></li>
+                <li><a href="#dashboard">3. Main Dashboard</a></li>
+                <li><a href="#admin">4. Admin Controls (Access Matrix)</a></li>
+                <li><a href="#andon">5. Andon System (Production Monitoring)</a>
+                    <ul>
+                        <li><a href="#andon-overview">5.1 Overview & Metrics</a></li>
+                        <li><a href="#andon-screens">5.2 Station Screens</a></li>
+                    </ul>
+                </li>
+                <li><a href="#breakdown">6. Breakdown Management</a>
+                    <ul>
+                        <li><a href="#breakdown-detail">6.1 Reporting Process</a></li>
+                        <li><a href="#breakdown-screens">6.2 Station Screens</a></li>
+                    </ul>
+                </li>
+                <li><a href="#audit">7. Reports & Audit Trail</a></li>
+                <li><a href="#structure">8. Project Structure</a></li>
+                <li><a href="#updates">9. New Features (v1.3.1)</a></li>
+            </ul>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <h1>Mercedes-Benz India Digital Assembly Platform</h1>
+            <p><strong>Version:</strong> 1.3.0 | <strong>Date:</strong> December 18, 2025</p>
+
+            <!-- 1. MERMAID FLOWCHART -->
+            <section id="workflow">
+                <h2>1. System Workflow Diagram</h2>
+                <p>The following flowchart illustrates the user journey through the application, from authentication to
+                    role-based access control and module interaction.</p>
+                <div class="mermaid">
+                    graph TD
+                    Start([App Launch]) --> Auth{Authenticated?}
+                    Auth -- No --> Login[Login Screen]
+                    Login -- Credentials --> Verify{Verify Creds}
+                    Verify -- Invalid --> Error[Show Error] --> Login
+                    Verify -- Valid --> SetSession[Set User Session]
+                    SetSession --> CheckRole{Check Role}
+
+                    CheckRole -->|Admin| Dashboard[Admin Dashboard]
+                    CheckRole -->|User| DashboardUser[User Dashboard]
+
+                    Dashboard --> Nav[Navigation Sidebar]
+                    DashboardUser --> Nav
+
+                    Nav --> Modules{Select Module}
+
+                    Modules --> Andon[Andon System]
+                    Modules --> Breakdown[Breakdown Reporting]
+                    Modules --> Reports[Production Reports]
+
+                    subgraph "Admin Only"
+                    Modules --> Security[Authorization]
+                    Security --> Matrix[Access Matrix]
+                    Security --> Audit[Audit Trail]
+                    end
+
+                    Andon --> ViewLine[Monitor Line Status]
+                    Breakdown --> ReportIssue[Log Line Stoppage]
+
+                    ReportIssue --> DB[(Database)]
+                    Matrix --> DB
+                    Audit --> DB
+                </div>
+            </section>
+
+            <!-- 2. LOGIN -->
+            <section id="login">
+                <h2>2. Login & Authentication</h2>
+                <div class="step-box">
+                    <h3>Authentication Flow</h3>
+                    <p>The platform uses a secure, token-based session management system. Access is strictly controlled
+                        via the <strong>AuthContext</strong> provider.</p>
+                    <ul>
+                        <li><strong>Validation:</strong> Inputs are sanitized and checked against the backend user
+                            registry.</li>
+                        <li><strong>Role Identification:</strong> Upon login, the system flags the user as either
+                            'Admin', 'Supervisor', or 'Viewer'. This flag determines which sidebar options are rendered.
+                        </li>
+                        <li><strong>Security:</strong> Failed attempts are logged (optional future feature) and sessions
+                            auto-expire after inactivity.</li>
+                    </ul>
+                </div>
+                <div class="image-container">
+                    <img src="./assets/login.png" alt="Login Page">
+                    <div class="image-caption">Figure 1: Login Screen. Uses a glassmorphism overlay on a cinematic
+                        background.</div>
+                </div>
+
+                <h3>User Registration</h3>
+                <p>New users can request access via the Signup page. Account creation sends a request to the admin
+                    queue, requiring manual approval before login is granted.</p>
+                <div class="image-container">
+                    <img src="./assets/signup_page.png" alt="Signup Page">
+                    <div class="image-caption">Figure 1.1: Signup Screen. Request a new account.</div>
+                </div>
+                <div class="image-container">
+                    <img src="./assets/signup_waiting_approval.png" alt="Signup Success - Waiting for Approval">
+                    <div class="image-caption">Figure 1.2: Awaiting Admin Approval. Post-registration state where the
+                        user must wait for confirmation.</div>
+                </div>
+            </section>
+
+            <!-- 3. DASHBOARD -->
+            <section id="dashboard">
+                <h2>3. Main Dashboard</h2>
+                <p>The Executive Dashboard acts as the central command center. It aggregates data from all Andon
+                    stations to provide a plant-wide health check.</p>
+                <h4>Key Metrics Displayed:</h4>
+                <ul>
+                    <li><strong>Alarm Counts:</strong> A visualization of how many alarms/errors have been triggered per
+                        department (Stakeholder). This helps identify bottlenecks (e.g., if 'Paint Shop' has high
+                        alarms).</li>
+                    <li><strong>Downtime Analysis:</strong> "Total Time per Stakeholder" charts clearly show which
+                        department is causing the most line stoppages.</li>
+                </ul>
+                <div class="image-container">
+                    <img src="./assets/dashboard.png" alt="Main Dashboard">
+                    <div class="image-caption">Figure 2: Executive Dashboard with interactive Recharts visualizations.
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. ACCESS MATRIX -->
+            <section id="admin">
+                <h2>4. Admin Controls (Access Matrix)</h2>
+                <p>The <strong>Access Matrix</strong> is the central hub for managing user permissions and role-based
+                    security. This screen is restricted to Administrators only.</p>
+                <div class="info-box">
+                    <strong>Security Level:</strong> Critical (Admin Only)<br>
+                    <strong>Route:</strong> <code>/auth/access-matrix</code>
+                </div>
+                <div class="image-container">
+                    <img src="./assets/access_matrix.png" alt="Access Matrix Interface">
+                    <div class="image-caption">Figure 3: Role-Based Access Control Matrix.</div>
+                </div>
+
+                <h3>Interface Layout Breakdown</h3>
+                <p>The Access Matrix screen is divided into two main areas: the User Management Table (Left) and the
+                    Context Sidebar (Right). Below is a structural text representation of the screen layout.</p>
+                <!-- Layout Simulation Container -->
+                <div
+                    style="border: 1px solid #ccc; background: #fafafa; padding: 20px; border-radius: 8px; font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 20px auto; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                    <!-- Header Simulation -->
+                    <div
+                        style="border-bottom: 2px solid #e0e0e0; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin: 0; border: none; padding: 0;">Registered Users</h3>
+                        <div>
+                            <span
+                                style="background: #0d6efd; color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.8em; margin-right: 5px;">+
+                                Add User</span>
+                            <span
+                                style="border: 1px solid #0d6efd; color: #0d6efd; padding: 5px 10px; border-radius: 4px; font-size: 0.8em;">Export
+                                CSV</span>
+                        </div>
+                    </div>
+                    <!-- Filter Bar Simulation -->
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <select style="padding: 5px; border-radius: 4px; border: 1px solid #ddd; width: 120px;">
+                            <option>All Roles</option>
+                        </select>
+                        <select style="padding: 5px; border-radius: 4px; border: 1px solid #ddd; width: 120px;">
+                            <option>All Statuses</option>
+                        </select>
+                        <input type="text" placeholder="Search users..."
+                            style="padding: 5px; border-radius: 4px; border: 1px solid #ddd; flex-grow: 1;">
+                    </div>
+                    <!-- Grid Layout -->
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                        <!-- Left: Table -->
+                        <div style="background: white; border: 1px solid #eee; border-radius: 4px; overflow: hidden;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+                                <thead style="background: #f8f9fa; border-bottom: 2px solid #eee;">
+                                    <tr>
+                                        <th style="text-align: left; padding: 10px;">User</th>
+                                        <th style="text-align: left; padding: 10px;">Role</th>
+                                        <th style="text-align: left; padding: 10px;">Status</th>
+                                        <th style="text-align: left; padding: 10px;">Permissions</th>
+                                        <th style="text-align: left; padding: 10px;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                                        <td style="padding: 10px;">
+                                            <div style="display: flex; align-items: center;">
+                                                <div
+                                                    style="width: 30px; height: 30px; background: #000; color: #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7em; margin-right: 8px;">
+                                                    A</div>
+                                                <div><strong>Admin</strong><br><span
+                                                        style="color: #666; font-size: 0.8em;">admin@MB</span></div>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 10px;"><span
+                                                style="background: #e0f2fe; color: #0056b3; padding: 2px 6px; border-radius: 4px; font-size: 0.8em;">Admin</span>
+                                        </td>
+                                        <td style="padding: 10px;"><span
+                                                style="color: #198754; font-weight: bold;">Approved</span></td>
+                                        <td style="padding: 10px;">
+                                            <span
+                                                style="height: 8px; width: 8px; background: #198754; border-radius: 50%; display: inline-block; margin-right: 2px;"></span>
+                                            <span
+                                                style="height: 8px; width: 8px; background: #198754; border-radius: 50%; display: inline-block; margin-right: 2px;"></span>
+                                            <span
+                                                style="height: 8px; width: 8px; background: #198754; border-radius: 50%; display: inline-block;"></span>
+                                        </td>
+                                        <td style="padding: 10px; color: #666;">⚙️ 👁️ ✏️</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px;">
+                                            <div style="display: flex; align-items: center;">
+                                                <div
+                                                    style="width: 30px; height: 30px; background: #6c757d; color: #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7em; margin-right: 8px;">
+                                                    KD</div>
+                                                <div><strong>Koustubh Deodhar</strong><br><span
+                                                        style="color: #666; font-size: 0.8em;">k@ats.com</span></div>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 10px;"><span
+                                                style="background: #f8f9fa; color: #666; padding: 2px 6px; border-radius: 4px; font-size: 0.8em;">User</span>
+                                        </td>
+                                        <td style="padding: 10px;"><span
+                                                style="color: #198754; font-weight: bold;">Approved</span></td>
+                                        <td style="padding: 10px;">
+                                            <span
+                                                style="height: 8px; width: 8px; background: #ddd; border-radius: 50%; display: inline-block; margin-right: 2px;"></span>
+                                            <span
+                                                style="height: 8px; width: 8px; background: #198754; border-radius: 50%; display: inline-block; margin-right: 2px;"></span>
+                                            <span
+                                                style="height: 8px; width: 8px; background: #ddd; border-radius: 50%; display: inline-block;"></span>
+                                        </td>
+                                        <td style="padding: 10px; color: #666;">⚙️ 👁️ ✏️</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Right: Sidebar -->
+                        <div style="display: flex; flex-direction: column; gap: 20px;">
+                            <div style="background: white; border: 1px solid #eee; border-radius: 4px; padding: 15px;">
+                                <h4
+                                    style="margin: 0 0 10px 0; font-size: 1em; border-bottom: 2px solid #eee; padding-bottom: 5px;">
+                                    Permissions</h4>
+                                <div
+                                    style="text-align: center; color: #999; font-style: italic; font-size: 0.9em; padding: 20px 0;">
+                                    Select a user from the table to manage their permissions.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Interactive Elements Guide</h3>
+                <p>The Access Matrix interface allows admins to manage users via specific action buttons in the
+                    "Actions" column. Below is a detailed guide on what each button does.</p>
+                <div class="interaction-guide">
+                    <h4>User Management Controls</h4>
+                    <ul>
+                        <li><span class="icon-label">⚙️ Settings (Gear)</span> - Opens permissions panel.</li>
+                        <li><span class="icon-label">👁️ View Log (Eye)</span> - Opens Activity Log Modal.</li>
+                        <li><span class="icon-label">✏️ Edit (Pencil)</span> - Opens Edit User Modal.</li>
+                        <li><span class="icon-label">✅ Approve</span> - Approves pending users.</li>
+                        <li><span class="icon-label">❌ Reject</span> - Rejects pending users.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 5. ANDON SYSTEM -->
+            <section id="andon">
+                <h2>5. Andon System (Production Monitoring)</h2>
+                <h3 id="andon-overview">5.1 Overview & Metrics</h3>
+                <p>The Andon system replaces traditional physical light boards with digital, real-time dashboards
+                    displayed on large monitors above each assembly line.</p>
+                <ul>
+                    <li><strong>PLAN (Shift Target):</strong> The goal number of units to be produced in the current
+                        shift.</li>
+                    <li><strong>ACTUAL (Due Counts):</strong> The current number of units successfully completed.</li>
+                    <li><strong>EFFICIENCY:</strong> A calculated percentage: <code>(Actual / Target) * 100</code>. Used
+                        to gauge team performance.</li>
+                </ul>
+
+                <h3 id="andon-screens">5.2 Andon Station Screens</h3>
+                <p><strong>Navigation:</strong> The sidebar provides quick links to all major production lines.</p>
+                <div class="image-container"><img src="./assets/sidebar_andon.png" alt="Andon Sidebar">
+                    <div class="image-caption">Figure 5.1: Navigation Sidebar.</div>
+                </div>
+                <div class="image-container"><img src="./assets/andon_trim4.png" alt="Trim 4"></div>
+                <div class="image-container"><img src="./assets/andon_trim5.png" alt="Trim 5"></div>
+                <div class="image-container"><img src="./assets/andon_mech3.png" alt="Mech 3"></div>
+                <div class="image-container"><img src="./assets/andon_mech4.png" alt="Mech 4"></div>
+                <div class="image-container"><img src="./assets/andon_finish1.png" alt="Finish 1"></div>
+                <div class="image-container"><img src="./assets/andon_finish2.png" alt="Finish 2"></div>
+                <div class="image-container"><img src="./assets/andon_cart_mech.png" alt="Cart Mech"></div>
+                <div class="image-container"><img src="./assets/andon_cart_trim.png" alt="Cart Trim"></div>
+            </section>
+
+            <!-- 6. BREAKDOWN MANAGEMENT -->
+            <section id="breakdown">
+                <h2>6. Breakdown Management</h2>
+                <h3 id="breakdown-detail">6.1 Reporting Process</h3>
+                <div class="step-box">
+                    <p><strong>Scenario:</strong> A line worker notices a hydraulic failure on the Trim 4 line.</p>
+                    <ol>
+                        <li>Worker/Supervisor logs into the tablet at the station.</li>
+                        <li>Navigates to <strong>Breakdown > Trim 4</strong>.</li>
+                        <li>Enters details: "Hydraulic Leak", Priority "High".</li>
+                        <li><strong>System Action:</strong> The system logs the start time immediately to track "Time to
+                            Repair" (MTTR).</li>
+                    </ol>
+                </div>
+                <h3 id="breakdown-screens">6.2 Station Screens</h3>
+                <div class="image-container"><img src="./assets/sidebar_breakdown.png" alt="Sidebar Breakdown"></div>
+                <div class="image-container"><img src="./assets/breakdown_trim4.png" alt="Trim 4 Breakdown"></div>
+                <div class="image-container"><img src="./assets/breakdown_trim5.png" alt="Trim 5 Breakdown"></div>
+                <div class="image-container"><img src="./assets/breakdown_mech3.png" alt="Mech 3 Breakdown"></div>
+                <div class="image-container"><img src="./assets/breakdown_mech4.png" alt="Mech 4 Breakdown"></div>
+                <div class="image-container"><img src="./assets/breakdown_finish1.png" alt="Finish 1 Breakdown"></div>
+                <div class="image-container"><img src="./assets/breakdown_finish2.png" alt="Finish 2 Breakdown"></div>
+                <div class="image-container"><img src="./assets/breakdown_cart_mech.png" alt="Cart Mech Breakdown">
+                </div>
+                <div class="image-container"><img src="./assets/breakdown_cart_trim.png" alt="Cart Trim Breakdown">
+                </div>
+            </section>
+
+            <!-- 7. AUDIT TRAIL -->
+            <section id="audit">
+                <h2>7. Reports & Audit Trail</h2>
+                <p>The Audit Trail records every significant interaction within the system. It ensures non-repudiation
+                    and traceability.</p>
+                <div class="info-box"><strong>Route:</strong> <code>/reports/audit-trail</code></div>
+                <div class="step-box">
+                    <h4>Tracked Events</h4>
+                    <ul>
+                        <li><strong>Logins/Logouts:</strong> Session tracking.</li>
+                        <li><strong>Data Modifications:</strong> Target changes, etc.</li>
+                        <li><strong>Admin Actions:</strong> Approvals/Rejections.</li>
+                    </ul>
+                </div>
+                <h3>Automated Archiving</h3>
+                <p>Server-side cron job saves logs to JSON/CSV hourly.</p>
+                <div class="image-container"><img src="./assets/audit_trail.png" alt="Audit Trail Log"></div>
+            </section>
+
+            <!-- 8. PROJECT STRUCTURE -->
+            <section id="structure">
+                <h2>8. Project Structure Technical Overview</h2>
+                <p>The solution is built as a <strong>Full-Stack JavaScript Application</strong>. It utilizes React
+                    (Vite) for the frontend and a dedicated Node.js Express server for handling file system operations.
+                </p>
+
+                <div class="step-box"
+                    style="background-color: #2d2d2d; color: #e0e0e0; border-left: 5px solid #00d4ff; font-family: 'Consolas', 'Monaco', monospace; margin: 20px 0;">
+                    <p style="color: #00d4ff; margin-bottom: 15px;"><strong>📂 File System Hierarchy</strong></p>
+                    <pre style="white-space: pre-wrap; margin: 0; font-size: 0.85em; line-height: 1.3;">
+mercedes-benz-react-app/
+├── 📄 server.js                            <span style="color:#6a9955;">// Backend: Cron Jobs & Audit Persistence</span>
+├── 📄 index.html                           <span style="color:#6a9955;">// Entry Point</span>
+├── 📄 package.json                         <span style="color:#6a9955;">// Dependency Manifest</span>
+├── 📄 vite.config.js                       <span style="color:#6a9955;">// Build Configuration</span>
+│
+├── 📁 Audit_Trial_Report_AutoSave/         <span style="color:#6a9955;">// 💾 Local Database (JSON Logs)</span>
+│   └── 📄 activityLogs.json
+│
+├── 📁 documentation/                       <span style="color:#6a9955;">// 📚 Documentation</span>
+│   ├── 📄 PROJECT_DOCUMENTATION.html       <span style="color:#6a9955;">// System Manual</span>
+│   ├── 📄 PROJECT_PITCH.html               <span style="color:#6a9955;">// Presentation</span>
+│   └── 📁 assets/                          <span style="color:#6a9955;">// Doc Images</span>
+│
+└── 📁 src/                                 <span style="color:#6a9955;">// ⚛️ React Source Code</span>
+    ├── 📄 App.jsx                          <span style="color:#6a9955;">// Main Route Definitions</span>
+    ├── 📄 main.jsx                         <span style="color:#6a9955;">// DOM Renderer</span>
+    ├── 📄 index.css                        <span style="color:#6a9955;">// Global Clean Styles</span>
+    │
+    ├── 📁 context/
+    │   └── 📄 AuthContext.jsx              <span style="color:#6a9955;">// Session & Role Management</span>
+    │
+    ├── 📁 layouts/                         <span style="color:#6a9955;">// App Shell Components</span>
+    │   ├── 📄 MainLayout.jsx               <span style="color:#6a9955;">// Standard Wrapper</span>
+    │   ├── 📄 Header.jsx                   <span style="color:#6a9955;">// Top Navigation</span>
+    │   ├── 📄 Sidebar.jsx                  <span style="color:#6a9955;">// Side Navigation</span>
+    │   ├── 📄 Footer.jsx                   <span style="color:#6a9955;">// Bottom Info</span>
+    │   └── 📄 LoadingScreen.jsx            <span style="color:#6a9955;">// Suspense Fallback</span>
+    │
+    ├── 📁 pages/                           <span style="color:#6a9955;">// Application Screens</span>
+    │   ├── 📁 Auth/                        <span style="color:#6a9955;">// Authentication</span>
+    │   │   ├── 📄 Login.jsx
+    │   │   └── 📄 AccessMatrix.jsx         <span style="color:#6a9955;">// Admin User Mgmt</span>
+    │   │
+    │   ├── 📁 Dashboard/                   <span style="color:#6a9955;">// Executive View</span>
+    │   │   └── 📄 Dashboard.jsx
+    │   │
+    │   ├── 📁 Andon/                       <span style="color:#6a9955;">// Line Monitoring Screens</span>
+    │   │   ├── 📄 Finish1Dashboard.jsx     <span style="color:#6a9955;">// Overview Dashboard</span>
+    │   │   ├── 📄 Finish2.jsx
+    │   │   ├── 📄 Mech3.jsx
+    │   │   ├── 📄 Mech4.jsx
+    │   │   ├── 📄 ShoppingCartMech.jsx
+    │   │   ├── 📄 ShoppingCartTrim.jsx
+    │   │   ├── 📄 Trim4.jsx
+    │   │   └── 📄 Trim5.jsx
+    │   │
+    │   ├── 📁 Breakdown/                   <span style="color:#6a9955;">// Incident Logging</span>
+    │   │   ├── 📄 BreakdownDashboard.jsx   <span style="color:#6a9955;">// Incident Overview</span>
+    │   │   ├── 📄 Finish1Breakdown.jsx
+    │   │   ├── 📄 Finish2Breakdown.jsx
+    │   │   ├── 📄 Mech3Breakdown.jsx
+    │   │   ├── 📄 Mech4Breakdown.jsx
+    │   │   ├── 📄 ShoppingCartMechBreakdown.jsx
+    │   │   ├── 📄 ShoppingCartTrimBreakdown.jsx
+    │   │   ├── 📄 Trim4Breakdown.jsx
+    │   │   └── 📄 Trim5Breakdown.jsx
+    │   │
+    │   ├── 📁 Management/                  <span style="color:#6a9955;">// Admin CRUD Modules</span>
+    │   │   ├── 📄 ActualManagement.jsx     <span style="color:#6a9955;">// Production Counts</span>
+    │   │   ├── 📄 BreakdownManagement.jsx  <span style="color:#6a9955;">// Incident Config</span>
+    │   │   ├── 📄 LineManagement.jsx       <span style="color:#6a9955;">// Assembly Lines</span>
+    │   │   ├── 📄 LostTimeManagement.jsx   <span style="color:#6a9955;">// Downtime Reasons</span>
+    │   │   ├── 📄 NPDManagement.jsx        <span style="color:#6a9955;">// New Product Data</span>
+    │   │   ├── 📄 ShiftManagement.jsx      <span style="color:#6a9955;">// Shift Timings</span>
+    │   │   ├── 📄 StationManagement.jsx    <span style="color:#6a9955;">// Station Config</span>
+    │   │   └── 📄 TargetManagement.jsx     <span style="color:#6a9955;">// KPI Targets</span>
+    │   │
+    │   ├── 📁 Master/                      <span style="color:#6a9955;">// Master Data</span>
+    │   │   ├── 📄 UsersMaster.jsx
+    │   │   └── 📄 RolesMaster.jsx
+    │   │
+    │   └── 📁 Reports/                     <span style="color:#6a9955;">// Compliance</span>
+    │       ├── 📄 AuditTrail.jsx           <span style="color:#6a9955;">// Live Log Viewer</span>
+    │       ├── 📄 AuditTrailReport.jsx     <span style="color:#6a9955;">// Report Generator</span>
+    │       └── 📄 InfeedReport.jsx         <span style="color:#6a9955;">// Production Infeed</span>
+    │
+    └── 📁 styles/                          <span style="color:#6a9955;">// CSS Modules</span>
+</pre>
+                </div>
+
+                <h3>Key Directory Definitions</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                    <thead>
+                        <tr style="background-color: #f1f3f5; border-bottom: 2px solid #dee2e6;">
+                            <th style="text-align: left; padding: 12px; width: 30%;">Path / File</th>
+                            <th style="text-align: left; padding: 12px;">Purpose & Function</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #e9ecef;">
+                            <td style="padding: 10px; font-weight: bold; font-family: monospace;">server.js</td>
+                            <td style="padding: 10px;">The Node.js backend. It runs concurrently with the React
+                                frontend. Its primary job is to execute the <strong>Cron Job</strong> that takes
+                                snapshots of the <code>activityLogs</code> variable and saves them to the disk every
+                                hour.</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e9ecef;">
+                            <td style="padding: 10px; font-weight: bold; font-family: monospace;">src/pages/</td>
+                            <td style="padding: 10px;">Contains all distinct screens/views of the application. Organized
+                                by module (Andon, Management, Reports).</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e9ecef;">
+                            <td style="padding: 10px; font-weight: bold; font-family: monospace;">src/layouts/</td>
+                            <td style="padding: 10px;">Reusable UI wrappers like the Sidebar, Header, and standard Page
+                                Layouts.</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e9ecef;">
+                            <td style="padding: 10px; font-weight: bold; font-family: monospace;">Audit_Trial_.../</td>
+                            <td style="padding: 10px;">The localized "database" folder. It persists critical compliance
+                                logs here as flat files.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>Visual Architecture (System Level)</h3>
+                <div class="mermaid">
+                    graph LR
+                    Root[mercedes-benz-react-app]
+                    Root --> Server(server.js)
+                    Root --> Public(public/)
+                    Root --> Docs(documentation/)
+                    Root --> Audit(Audit_Trial_AutoSave/)
+                    Root --> Src(src/)
+
+                    Src --> Context(context/)
+                    Src --> Layouts(layouts/)
+                    Src --> Pages(pages/)
+
+                    Layouts --> Sidebar[Sidebar.jsx]
+                    Layouts --> Header[Header.jsx]
+                    Layouts --> Footer[Footer.jsx]
+
+                    Pages --> Auth[Auth / Login]
+                    Pages --> Dashboard[Dashboard]
+                    Pages --> Andon[Andon Screens]
+                    Pages --> Breakdown[Breakdown Mgmt]
+                    Pages --> Mgmt[Management]
+                    Pages --> Reports[Reports]
+                    Pages --> Admin[Authorization]
+
+                    style Root fill:#d4cdcd,stroke:#333
+                    style Src fill:#89CFF0,stroke:#333
+                    style Server fill:#ffcc00,stroke:#333
+                    style Pages fill:#90EE90,stroke:#333
+                </div>
+
+                <h3>Source Code Architecture (Exploded View)</h3>
+                <div class="mermaid">
+                    graph LR
+                    SRC[src]
+
+                    %% Main Clusters
+                    SRC --> ASSETS[Assets]
+                    SRC --> CTX[Context]
+                    SRC --> LAYOUT[Layouts]
+                    SRC --> PAGES[Pages]
+
+                    %% Assets
+                    ASSETS --> Logo(logo.jpeg)
+                    ASSETS --> RSVG(react.svg)
+
+                    %% Context
+                    CTX --> AuthCtx(AuthContext.jsx)
+
+                    %% Layouts
+                    subgraph "App Shell (Layouts)"
+                    LAYOUT --> Head[Header.jsx]
+                    LAYOUT --> Foot[Footer.jsx]
+                    LAYOUT --> Side[Sidebar.jsx]
+                    LAYOUT --> Load[LoadingScreen.jsx]
+                    LAYOUT --> MainL[MainLayout.jsx]
+                    end
+
+                    %% Pages Breakdown
+                    subgraph "Application Views (Pages)"
+                    PAGES --> AUTH[Auth]
+                    PAGES --> DASH[Dashboard]
+                    PAGES --> ANDON[Andon Lines]
+                    PAGES --> BREAK[Breakdown Screen]
+                    PAGES --> MGMT[Management]
+                    PAGES --> REPORT[Reports]
+                    PAGES --> ADMIN[Authorization]
+                    PAGES --> MASTER[Master Data]
+                    end
+
+                    %% Auth Pages
+                    AUTH --> LogP[Login.jsx]
+                    AUTH --> SignP[Signup.jsx]
+
+                    %% Andon Detail
+                    ANDON --> Trim4[Trim4.jsx]
+                    ANDON --> Trim5[Trim5.jsx]
+                    ANDON --> CartTrim[ShoppingCartTrim.jsx]
+                    ANDON --> CartMech[ShoppingCartMech.jsx]
+                    ANDON --> Mech3[Mech3.jsx]
+                    ANDON --> Mech4[Mech4.jsx]
+                    ANDON --> Finish1[Finish1.jsx]
+                    ANDON --> Finish2[Finish2.jsx]
+
+                    %% Breakdown Detail
+                    BREAK --> BD_Dash[BreakdownDashboard.jsx]
+                    BREAK --> BD_Trim4[Trim4Breakdown.jsx]
+                    BREAK --> BD_Mech3[Mech3Breakdown.jsx]
+                    BREAK --> BD_Finish1[Finish1Breakdown.jsx]
+
+                    %% Management Detail
+                    MGMT --> LineMgmt[LineManagement.jsx]
+                    MGMT --> ShiftMgmt[ShiftManagement.jsx]
+                    MGMT --> StatMgmt[StationManagement.jsx]
+                    MGMT --> TargMgmt[TargetManagement.jsx]
+
+                    %% Reports Detail
+                    REPORT --> AuditRep[AuditTrailReport.jsx]
+                    REPORT --> InfeedRep[InfeedReport.jsx]
+
+                    %% Styles
+                    style SRC fill:#2b2b2b,active,stroke:#fff,stroke-width:2px,color:#fff
+                    style LAYOUT fill:#e1f5fe,stroke:#01579b
+                    style PAGES fill:#e8f5e9,stroke:#1b5e20
+                    style AUTH fill:#fff3e0,stroke:#e65100
+                    style ANDON fill:#e0f7fa,stroke:#006064
+                </div>
+            </section>
+
+            <!-- 9. NEW FEATURES (v1.3.1) -->
+            <section id="updates">
+                <h2>9. New Features & Updates (v1.3.1)</h2>
+                <p>Recent updates focused on enhancing data visibility, reporting granularity, and UI standardization
+                    across management modules.</p>
+
+                <h3>9.1 Stakeholder Reason Module</h3>
+                <p>A dedicated interface for analyzing downtime reasons by stakeholder. Includes date range filtering
+                    and one-click Excel export.</p>
+                <div class="image-container">
+                    <img src="./assets/stakeholder_reason.png" alt="Stakeholder Reason Page">
+                    <div class="image-caption">Figure 9.1: Stakeholder Reason Management with Date Filters.</div>
+                </div>
+
+                <h3>9.2 Advanced Audit Trail UI</h3>
+                <p>The Audit Trail has been completely redesigned for better readability and utility:</p>
+                <ul>
+                    <li><strong>User Grouping:</strong> Activities are now grouped by user cards.</li>
+                    <li><strong>Expandable Details:</strong> "Learn More" style toggle reveals detailed logs.</li>
+                    <li><strong>Granular Export:</strong> Admins can download Excel logs for a specific user row or the
+                        entire dataset.</li>
+                    <li><strong>Visual Enhancements:</strong> Premium shadowing, 3D buttons, and polished alignment.
+                    </li>
+                </ul>
+                <div class="image-container">
+                    <img src="./assets/audit_trail.png" alt="Advanced Audit Trail">
+                    <div class="image-caption">Figure 9.2: Card-based Audit Trail with expandable user rows and
+                        row-level export.</div>
+                </div>
+
+                <h3>9.3 Manage Line Shift Target</h3>
+                <p>The Target Management screen now features a high-contrast design with a black header and
+                    green-tinted zebra striping, matching specific deployment requirements.</p>
+                <ul>
+                    <li><strong>Takt Time:</strong> Added display for shift-specific Takt times.</li>
+                    <li><strong>Compact Inputs:</strong> Optimized input fields for quick target adjustments.</li>
+                    <li><strong>Styling:</strong> Custom black/white header and "iPROD" branded footer.</li>
+                </ul>
+                <div class="image-container">
+                    <img src="./assets/manage_target.png" alt="Manage Target Screen">
+                    <div class="image-caption">Figure 9.3: Manage Line Shift Target with custom styling.</div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+</body>
+
+</html>

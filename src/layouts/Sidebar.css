@@ -1,0 +1,211 @@
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    /* Hide overflow from video */
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.collapsed {
+    transform: translateX(-100%);
+}
+
+.sidebar.expanded {
+    transform: translateX(0);
+}
+
+.sidebar-toggle-btn {
+    position: fixed;
+    top: 13px;
+    /* vertically centered in 70px header (70 - 44) / 2 */
+    left: 20px;
+    z-index: 1100;
+    background-color: #2c2c2c;
+    /* Subtly lighter than pure black */
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.sidebar-toggle-btn:hover {
+    background-color: #3d3d3d;
+    transform: scale(1.05);
+}
+
+.sidebar-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+/* Video Background Styles */
+.sidebar-video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.sidebar-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sidebar-glass-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    /* Adjust for visibility */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    overflow-y: auto;
+    padding-top: 0;
+    /* Changed from 20px to 0 to align header to top */
+}
+
+.logo-container {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+    margin-top: 0;
+    /* Align to top */
+    background: #000000;
+    /* Full black background */
+}
+
+.logo-container img {
+    width: 70px;
+    height: auto;
+}
+
+.merged-logo {
+    mix-blend-mode: screen;
+    /* Merges black background with the video behind */
+}
+
+.logo-container h3 {
+    margin: 5px 0 0 0;
+    font-weight: 600;
+    font-size: 18px;
+    color: white;
+}
+
+.nav-link {
+    padding: 12px 15px;
+    margin: 6px 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #d0d0d0;
+    text-decoration: none;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.nav-link:hover {
+    background-color: var(--nav-item-hover);
+    color: #fff;
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-link.active {
+    background-color: var(--nav-item-active);
+    color: #fff;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+    border-left: 3px solid var(--mercedes-red);
+}
+
+.nav-link:active {
+    transform: scale(0.98);
+}
+
+.nav-link .nav-icon {
+    margin-right: 15px;
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.nav-link:hover .nav-icon {
+    transform: scale(1.2);
+    color: white;
+}
+
+.dropdown-arrow {
+    margin-left: auto;
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+}
+
+.dropdown-arrow.open {
+    transform: rotate(90deg);
+}
+
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    background-color: #333333;
+    /* Grey as requested */
+    transition: max-height 0.3s ease-out;
+    margin: 0 15px;
+    border-radius: 0 0 8px 8px;
+}
+
+.submenu.open {
+    max-height: 500px;
+    /* Arbitrary large height for animation */
+}
+
+.submenu a {
+    padding: 10px 20px 10px 55px;
+    font-size: 14px;
+    display: block;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.submenu a:hover,
+.submenu a.active {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.05);
+}

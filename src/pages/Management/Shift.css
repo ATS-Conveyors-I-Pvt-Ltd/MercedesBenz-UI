@@ -1,0 +1,11 @@
+@import './Management.css';
+
+.action-btn-red {
+    background: #FF0000;
+    /* Bright red */
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+}

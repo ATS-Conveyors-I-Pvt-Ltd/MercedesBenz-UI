@@ -1,0 +1,101 @@
+@import './Management.css';
+
+/* Override the standard management table header for this specific page */
+.target-table thead {
+    background-color: #000000;
+}
+
+.target-table thead th {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border-bottom: 1px solid #333;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px;
+    /* Slightly smaller for dense data */
+    padding: 12px 10px;
+    letter-spacing: 0.5px;
+}
+
+/* Zebra Striping similar to screenshot */
+.row-even {
+    background-color: #e8f5e9;
+    /* Very light green hint */
+}
+
+.row-odd {
+    background-color: #f3fcf5;
+    /* Even lighter green/white */
+}
+
+.target-table tbody tr:hover {
+    background-color: #d1fae5;
+    /* Highlight on hover */
+}
+
+.target-table td {
+    border-right: 1px solid #e0e7ff;
+    /* Vertical dividers */
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #333;
+    font-weight: 500;
+}
+
+.target-table td:last-child {
+    border-right: none;
+}
+
+/* Green text for Line/Shift columns */
+.text-green-dark {
+    color: #064e3b;
+    font-weight: 600;
+}
+
+/* Target Input Field */
+.target-input {
+    width: 100%;
+    max-width: 60px;
+    padding: 4px 8px;
+    border: 1px solid #9ca3af;
+    border-radius: 2px;
+    font-size: 13px;
+    background: #fff;
+    color: #000;
+}
+
+/* Black Action Button */
+.action-btn.black-btn {
+    background-color: #000000;
+    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.action-btn.black-btn:hover {
+    background-color: #333333;
+    transform: translateY(-1px);
+}
+
+/* Footer Styling */
+.management-footer {
+    margin-top: auto;
+    border-top: 1px solid #ccc;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f1f1f1;
+    font-size: 11px;
+    color: #555;
+    font-family: sans-serif;
+}
+
+.iprod-logo {
+    font-weight: 900;
+    color: #000;
+    font-size: 14px;
+    margin-right: 5px;
+}

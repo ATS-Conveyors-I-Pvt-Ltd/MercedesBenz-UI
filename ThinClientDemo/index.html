@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercedes-Benz Thin Client Demo</title>
+    <style>
+        /* =========================================
+           GLOBAL RESETS & FONTS
+           ========================================= */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        /* Container for rotating screens */
+        #screen-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* Generic Screen Wrapper */
+        .screen {
+            display: none;
+            /* Hidden by default */
+            width: 100%;
+            height: 100%;
+            animation: fadeIn 0.5s ease-in-out;
+            background: #fff;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* =========================================
+           SCREEN 1: ANDON (Trim 4) CSS
+           FULL SCREEN OPTIMIZED - EDGE TO EDGE
+           ========================================= */
+        .dashboard-container {
+            width: 100vw;
+            height: 100vh;
+            padding: 0;
+            /* REMOVED PADDING */
+            margin: 0;
+            box-sizing: border-box;
+            background-color: #f4f5f7;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            /* Stretch to full width */
+            justify-content: space-between;
+        }
+
+        .dashboard-table {
+            width: 100%;
+            /* Removed width restriction for full screen */
+            flex-grow: 1;
+            /* Allow tables to fill vertical space */
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 0;
+            /* REMOVED MARGIN */
+            background: white;
+            border-radius: 0;
+            /* REMOVED RADIUS for edge-to-edge */
+            overflow: hidden;
+            box-shadow: none;
+            /* Flat look for full screen */
+            border: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-table thead {
+            flex-shrink: 0;
+        }
+
+        .dashboard-table tbody {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-table tbody tr {
+            flex-grow: 1;
+            display: flex;
+            width: 100%;
+            border-bottom: 1px solid #eee;
+            /* Maintain separators */
+        }
+
+        .table-main-title {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
+            color: white;
+            font-size: 4vw;
+            /* INCREASED */
+            font-weight: 700;
+            padding: 1.5vh 0;
+            /* Relative padding */
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: none;
+            width: 100%;
+            display: block;
+        }
+
+        .column-header {
+            background-color: #f8f9fa;
+            color: #444;
+            font-size: 2vw;
+            /* INCREASED */
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 1vh 0;
+            border-bottom: 2px solid #e9ecef;
+            border-right: 1px solid #eee;
+            text-align: center;
+            width: 25%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .time-table .column-header {
+            width: 33.33%;
+        }
+
+        .column-header:last-child {
+            border-right: none;
+        }
+
+
+        .dashboard-table tbody tr:hover {
+            background-color: #f0f8ff;
+        }
+
+        .row-label {
+            font-size: 3.5vw;
+            /* INCREASED */
+            font-weight: 600;
+            /* padding: 25px; */
+            border-right: 1px solid #eee;
+            text-align: center;
+            color: #333;
+            background-color: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 25%;
+        }
+
+        .data-value {
+            font-size: 6vw;
+            /* INCREASED */
+            font-weight: 700;
+            /* padding: 25px; */
+            border-right: 1px solid #eee;
+            text-align: center;
+            color: #333;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 25%;
+        }
+
+        .time-table .data-value {
+            width: 33.33%;
+        }
+
+        .data-value:last-child {
+            border-right: none;
+        }
+
+        .green-text {
+            color: #00b894;
+            text-shadow: 0 2px 10px rgba(0, 184, 148, 0.2);
+        }
+
+        .red-text {
+            color: #d63031;
+            text-shadow: 0 2px 10px rgba(214, 48, 49, 0.2);
+        }
+
+        .big-value {
+            font-size: 12vw;
+            /* MASSIVE INCREASE */
+            font-weight: 800;
+        }
+
+        /* Separator between the two tables */
+        .table-spacer {
+            height: 10px;
+            width: 100%;
+            background: #ccc;
+            flex-shrink: 0;
+        }
+
+
+        /* =========================================
+           SCREEN 2: BREAKDOWN CSS
+           ========================================= */
+        .breakdown-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f0f2f5;
+        }
+
+        .breakdown-header {
+            background: #002b49;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            border-bottom: 4px solid #00adef;
+            flex-shrink: 0;
+        }
+
+        .breakdown-header h2 {
+            margin: 0;
+            font-size: 3vh;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .breakdown-grid {
+            flex-grow: 1;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .breakdown-card-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+
+        .breakdown-card {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .card-label {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 2vh;
+            font-weight: 700;
+            text-transform: uppercase;
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+        .card-content {
+            display: flex;
+            gap: 5vw;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .big-letter,
+        .big-number {
+            font-size: 15vh;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        /* Logistics: Blue */
+        .logistics {
+            background: linear-gradient(135deg, #00b4eb 0%, #0077a3 100%);
+            color: #fff;
+        }
+
+        .logistics .big-letter,
+        .logistics .big-number {
+            color: #fff;
+        }
+
+        /* Maintenance: Orange */
+        .maintenance {
+            background: linear-gradient(135deg, #ff9f43 0%, #ff6b00 100%);
+            color: #fff;
+        }
+
+        .maintenance .big-letter,
+        .maintenance .big-number {
+            color: #fff;
+        }
+
+        /* Quality: White */
+        .quality {
+            background: linear-gradient(135deg, #ffffff 0%, #e8e8e8 100%);
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .quality .big-letter,
+        .quality .big-number {
+            color: #333;
+        }
+
+        /* Production: Yellow */
+        .production {
+            background: linear-gradient(135deg, #ffd32a 0%, #ffa801 100%);
+            color: #000;
+        }
+
+        .production .big-letter,
+        .production .big-number {
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="screen-container">
+        <!-- =========================================
+             SCREEN 1: ANDON / TRIM 4 (FULL SCREEN)
+             ========================================= -->
+        <div id="andon-screen" class="screen active">
+            <div class="dashboard-container">
+                <!-- Table 1: Production Status -->
+                <div class="dashboard-table production-table">
+                    <thead>
+                        <tr>
+                            <th class="table-main-title">Production Status for Trim 4 Line</th>
+                        </tr>
+                        <div style="display: flex; width: 100%;">
+                            <th class="column-header">SHIFT</th>
+                            <th class="column-header">TARGET</th>
+                            <th class="column-header">DUE</th>
+                            <th class="column-header">ACTUAL</th>
+                        </div>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-label">SHIFT 1</td>
+                            <td class="data-value green-text">145</td>
+                            <td class="data-value">120</td>
+                            <td class="data-value red-text">118</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">SHIFT 2</td>
+                            <td class="data-value green-text">0</td>
+                            <td class="data-value">0</td>
+                            <td class="data-value red-text">0</td>
+                        </tr>
+                    </tbody>
+                </div>
+
+                <div class="table-spacer"></div>
+
+                <!-- Table 2: Time Status -->
+                <div class="dashboard-table time-table">
+                    <thead>
+                        <div style="display: flex; width: 100%;">
+                            <th class="column-header">TAKT (mm:ss)</th>
+                            <th class="column-header">Left Time</th>
+                            <th class="column-header">Lost Time (mm:ss)</th>
+                        </div>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="data-value big-value green-text">02:30</td>
+                            <td class="data-value big-value">19:20</td>
+                            <td class="data-value big-value red-text">05:15</td>
+                        </tr>
+                    </tbody>
+                </div>
+            </div>
+        </div>
+
+        <!-- =========================================
+             SCREEN 2: BREAKDOWN / TRIM 4
+             ========================================= -->
+        <div id="breakdown-screen" class="screen">
+            <div class="breakdown-container">
+                <div class="breakdown-header">
+                    <h2>Breakdown Alarm for Trim4</h2>
+                </div>
+
+                <div class="breakdown-grid">
+                    <!-- L - Logistics -->
+                    <div class="breakdown-card-wrapper">
+                        <div class="breakdown-card logistics">
+                            <span class="card-label">Logistics</span>
+                            <div class="card-content">
+                                <span class="big-letter">L</span>
+                                <span class="big-number">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- M - Maintenance -->
+                    <div class="breakdown-card-wrapper">
+                        <div class="breakdown-card maintenance">
+                            <span class="card-label">Maintenance</span>
+                            <div class="card-content">
+                                <span class="big-letter">M</span>
+                                <span class="big-number">1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q - Quality -->
+                    <div class="breakdown-card-wrapper">
+                        <div class="breakdown-card quality">
+                            <span class="card-label">Quality</span>
+                            <div class="card-content">
+                                <span class="big-letter">Q</span>
+                                <span class="big-number">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- P - Production -->
+                    <div class="breakdown-card-wrapper">
+                        <div class="breakdown-card production">
+                            <span class="card-label">Production</span>
+                            <div class="card-content">
+                                <span class="big-letter">P</span>
+                                <span class="big-number">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const screens = [
+            { id: 'andon-screen', duration: 5000 },
+            { id: 'breakdown-screen', duration: 3000 }
+        ];
+
+        let currentIndex = 0;
+
+        function rotateScreens() {
+            // Hide current
+            document.getElementById(screens[currentIndex].id).classList.remove('active');
+
+            // Move to next
+            currentIndex = (currentIndex + 1) % screens.length;
+            const nextScreen = screens[currentIndex];
+
+            // Show next
+            document.getElementById(nextScreen.id).classList.add('active');
+
+            // Schedule next switch
+            setTimeout(rotateScreens, nextScreen.duration);
+        }
+
+        // Start initial timer
+        setTimeout(rotateScreens, screens[0].duration);
+    </script>
+</body>
+
+</html>

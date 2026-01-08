@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercedes-Benz DAP - Project Flow & Pitch</title>
+    <style>
+        :root {
+            --primary-black: #000000;
+            --secondary-dark: #1a1a1a;
+            --accent-blue: #00aad2;
+            --text-white: #ffffff;
+            --text-gray: #b3b3b3;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--secondary-dark);
+            color: var(--text-white);
+            overflow-x: hidden;
+        }
+
+        /* Slide Container */
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #333;
+            position: relative;
+        }
+
+        .slide:nth-child(even) {
+            background-color: var(--primary-black);
+        }
+
+        /* Content Styling */
+        .content-wrapper {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .text-content {
+            padding-right: 20px;
+        }
+
+        .text-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .text-content h3 {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .step-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .step-list li {
+            margin-bottom: 20px;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent-blue);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .step-list li strong {
+            color: var(--accent-blue);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Image Styling */
+        .image-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .image-container:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-blue);
+        }
+
+        .image-container img {
+            width: 100%;
+            display: block;
+        }
+
+        /* Navigation Dots (Visual Only) */
+        .nav-dots {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .dot.active {
+            background: var(--accent-blue);
+        }
+
+        /* Title Slide */
+        .title-slide {
+            text-align: center;
+            background: radial-gradient(circle at center, #2a2a2a 0%, #000 100%);
+        }
+
+        .title-slide img {
+            width: 120px;
+            margin-bottom: 30px;
+        }
+
+        .title-slide h1 {
+            font-size: 4rem;
+            margin: 0;
+            background: -webkit-linear-gradient(#fff, #999);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .title-slide p {
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            letter-spacing: 4px;
+            margin-top: 20px;
+        }
+
+        /* Elements Grid for Sidebar Slide */
+        .grid-elements {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .grid-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .kpi-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nav-dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <!-- Slide 1: Title -->
+    <div class="slide title-slide">
+        <img src="../public/assets/MercBenzLogo.png" alt="Mercedes Logo">
+        <h1>Digital Assembly Platform</h1>
+        <p>PROJECT FLOW & ARCHITECTURE</p>
+        <div style="margin-top: 50px; color: #666;">Scroll to Begin Presentation ▼</div>
+    </div>
+
+    <!-- Slide 2: Login Flow -->
+    <div class="slide">
+        <div class="content-wrapper">
+            <div class="text-content">
+                <h2>01. Secure Entry</h2>
+                <h3>Authentication Flow</h3>
+                <ul class="step-list">
+                    <li>
+                        <strong>Step 1: User Input</strong>
+                        Operator enters corporate ID (e.g., <code>admin@MB</code>) and password.
+                    </li>
+                    <li>
+                        <strong>Step 2: Validation</strong>
+                        Clicking <em>"Sign In"</em> triggers the AuthContext to validate credentials against the secure
+                        user store.
+                    </li>
+                    <li>
+                        <strong>What Happens Next?</strong>
+                        <span style="color: #4caf50;">✓ Success:</span> Redirects to Dashboard.<br>
+                        <span style="color: #f44336;">✗ Failure:</span> Shows error message "Invalid Login ID".
+                    </li>
+                </ul>
+            </div>
+            <div class="image-container">
+                <img src="assets/login.png" alt="Login Screen">
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Dashboard Overview -->
+    <div class="slide">
+        <div class="content-wrapper">
+            <div class="image-container">
+                <img src="assets/dashboard.png" alt="Dashboard Screen">
+            </div>
+            <div class="text-content">
+                <h2>02. Executive Dashboard</h2>
+                <h3>Real-Time Factory Pulse</h3>
+                <ul class="step-list">
+                    <li>
+                        <strong>Global Visualization</strong>
+                        The first screen shows a high-level view of all stakeholders (Logistics, Maintenance, Quality).
+                    </li>
+                    <li>
+                        <strong>Interaction</strong>
+                        <span
+                            style="border: 1px solid #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.8em;">HOVER</span>
+                        over any chart area to reveal precise alarm counts and timestamps.
+                    </li>
+                    <li>
+                        <strong>Data Flow</strong>
+                        This page fetches aggregated data from the `AndonContext` to render live charts using the
+                        Recharts library.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Navigation & Sidebar -->
+    <div class="slide">
+        <div class="content-wrapper">
+            <div class="text-content">
+                <h2>03. Navigation Hub</h2>
+                <h3>The Sidebar Architecture</h3>
+                <p>Clicking the <span style="font-family:monospace;">☰</span> icon reveals the main menu.</p>
+
+                <div class="grid-elements">
+                    <div class="grid-item"><span style="color:#00aad2">🖥 ANDON</span><br>Monitor Trim & Mech lines
+                    </div>
+                    <div class="grid-item"><span style="color:#eab308">⚠ BREAKDOWN</span><br>Report & View Issues</div>
+                    <div class="grid-item"><span style="color:#a855f7">🔧 MANAGEMENT</span><br>Config Shift/Lines</div>
+                    <div class="grid-item"><span style="color:#22c55e">📊 REPORTS</span><br>Audit Trail & Infeed</div>
+                    <div class="grid-item"><span style="color:#ef4444">🛡 AUTHORIZATION</span><br>Admin Access Only
+                    </div>
+                </div>
+
+                <ul class="step-list" style="margin-top: 20px;">
+                    <li>
+                        <strong>Video Background</strong>
+                        A looping ambient video plays behind the menu for a premium aesthetic.
+                    </li>
+                </ul>
+            </div>
+            <div class="image-container">
+                <img src="assets/sidebar.png" alt="Sidebar Navigation">
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Andon Operation -->
+    <div class="slide">
+        <div class="content-wrapper">
+            <div class="image-container">
+                <img src="assets/andon_trim4.png" alt="Andon Screen">
+            </div>
+            <div class="text-content">
+                <h2>04. Shop Floor Control</h2>
+                <h3>Andon System (Trim 4)</h3>
+                <ul class="step-list">
+                    <li>
+                        <strong>Live Monitoring</strong>
+                        Operators view the "Shift Target" vs "Actual Output" in real-time.
+                    </li>
+                    <li>
+                        <strong>Visual Logic</strong>
+                        <ul>
+                            <li><span style="color: #22c55e;">Green Text:</span> On Target / Running Smoothly</li>
+                            <li><span style="color: #ef4444;">Red Text:</span> Behind Schedule / High Lost Time</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Action</strong>
+                        This screen updates automatically without page refreshes, keeping operators focused on the line.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Admin Security -->
+    <div class="slide">
+        <div class="content-wrapper">
+            <div class="text-content">
+                <h2>05. Security & Auditing</h2>
+                <h3>Administrative Controls</h3>
+                <ul class="step-list">
+                    <li>
+                        <strong>Access Matrix</strong>
+                        Admins can grant/revoke permissions for specific modules (e.g., disable 'Reports' for junior
+                        users).
+                    </li>
+                    <li>
+                        <strong>Audit Trail</strong>
+                        A forensic log of all actions.
+                        <br><em>Example:</em> "User John toggled permission for Line 1 at 10:42 AM".
+                    </li>
+                    <li>
+                        <strong>Export Data</strong>
+                        Clicking the <button
+                            style="background:#22c55e; color:white; border:none; border-radius:4px; padding:2px 6px;">Export
+                            Excel</button> button downloads a .xlsx report immediately.
+                    </li>
+                </ul>
+            </div>
+            <div class="image-container">
+                <img src="assets/audit_trail.png" alt="Audit Trail">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple Intersection Observer to highlight nav dots
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Update dots based on slide index
+                    // (Logic simplified for visual demo)
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.slide').forEach(slide => observer.observe(slide));
+    </script>
+</body>
+
+</html>

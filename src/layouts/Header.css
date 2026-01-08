@@ -1,0 +1,211 @@
+.main-header {
+    background-color: var(--header-bg-dark);
+    /* Black background */
+    color: var(--text-color);
+    /* White text */
+    padding: 15px 30px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    z-index: 100;
+    height: 70px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.full-width .main-header {
+    padding-left: 80px;
+    /* Make space for hamburger menu */
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.header-left:hover {
+    opacity: 0.8;
+}
+
+.main-header .logo-mini {
+    width: 35px;
+    height: auto;
+}
+
+.header-clock {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: #333;
+    /* Dark grey for clock */
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid #444;
+}
+
+.live-indicator {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    color: var(--mercedes-red);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.blinking-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--mercedes-red);
+    border-radius: 50%;
+    margin-right: 6px;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Glassmorphic Time Tooltip */
+.header-clock {
+    position: relative;
+    cursor: help;
+    /* Hint that it's interactive */
+}
+
+.time-tooltip {
+    position: absolute;
+    top: 130%;
+    right: 0;
+    width: 220px;
+    background: rgba(30, 30, 30, 0.75);
+    /* Dark transparent */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.header-clock:hover .time-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.tooltip-date {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #e2e8f0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding-bottom: 8px;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tooltip-time {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    /* Glow effect */
+}
+/* User Profile & Dropdown */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 1px solid #444;
+    cursor: pointer;
+    position: relative;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.user-profile:hover {
+    background-color: #444;
+    border-color: #555;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 130%;
+    right: 0;
+    background: rgba(30, 30, 30, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    padding: 6px;
+    width: 140px;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+.logout-btn {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #ff4d4d;
+    padding: 10px 15px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 77, 77, 0.1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

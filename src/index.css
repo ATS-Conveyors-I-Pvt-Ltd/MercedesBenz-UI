@@ -1,0 +1,69 @@
+:root {
+  /* Define main colors based on screenshots */
+  --sidebar-bg: #1A1A1A;
+  --header-bg-dark: #000;
+  --footer-bg-dark: #000;
+  --text-color: #F0F0F0;
+  --hover-color: #333333;
+  --mercedes-red: #D90000;
+  --mercedes-green: #008000;
+  --mercedes-orange: #CC7F56;
+
+  /* Data Colors */
+  --data-blue: #2D6EA3;
+  --data-green: #7ED321;
+
+  /* Maintenance panel colors */
+  --maint-red: #D9534F;
+  --maint-yellow: #FFC000;
+  --maint-green: #5CB85C;
+  --maint-text: #1A1A1A;
+
+  /* Management Table colors */
+  --table-header-bg: #000;
+  --table-row-bg-even: #F0F0F0;
+
+  /* Glassmorphism & Modern Side Nav variables */
+  /* Sidebar set to solid black as per latest request */
+  --sidebar-glass: #000000;
+  --nav-item-hover: rgba(255, 255, 255, 0.12);
+  --nav-item-active: rgba(255, 255, 255, 0.2);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7f6;
+  min-height: 100vh;
+  width: 100%;
+  color: #333;
+  overflow-x: hidden;
+  /* Prevent horizontal scroll */
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* Ensure root container also prevents scroll */
+}
+
+/* Scrollbar styling for Webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

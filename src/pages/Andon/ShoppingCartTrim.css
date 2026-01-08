@@ -1,0 +1,13 @@
+.screen-container {
+  padding: 20px;
+  background: white;
+  min-height: 100%;
+}
+.content-placeholder {
+  padding: 50px;
+  text-align: center;
+  color: #666;
+  border: 2px dashed #ccc;
+  margin-top: 20px;
+  border-radius: 8px;
+}

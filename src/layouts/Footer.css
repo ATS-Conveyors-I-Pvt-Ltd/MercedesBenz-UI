@@ -1,23 +1,26 @@
 .global-footer {
-    background: rgba(255, 255, 255, 0.65);
-    /* Increased transparency for better glass effect */
-    backdrop-filter: blur(16px) saturate(180%);
-    /* Stronger blur and saturation */
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.85);
+    /* Slightly more opaque for better readability */
+    backdrop-filter: blur(20px) saturate(180%);
+    /* Stronger blur for glass effect */
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-top: 1px solid rgba(255, 255, 255, 0.3);
     color: #1a202c;
     /* Softer black */
     padding: 15px 30px;
     width: 100%;
-    margin-top: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Inter', sans-serif;
-    z-index: 1000;
-    /* Ensure it stays on top */
-    box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.03);
-    /* Extremely soft shadow */
+    z-index: 9999;
+    /* Ensure it stays on top of all content */
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.08);
+    /* More pronounced shadow for depth */
     transition: all 0.3s ease;
 }
 
@@ -58,4 +61,12 @@
     letter-spacing: 0.5px;
     color: #333;
     opacity: 0.9;
+}
+
+.footer-tech {
+    font-size: 12px;
+    font-weight: 500;
+    color: #555;
+    opacity: 0.8;
+    font-style: italic;
 }

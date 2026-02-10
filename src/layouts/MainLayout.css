@@ -30,6 +30,8 @@
 .content-area {
     flex-grow: 1;
     padding: 0;
+    padding-bottom: 80px;
+    /* Space for fixed footer */
     display: flex;
     flex-direction: column;
 }

@@ -20,7 +20,7 @@ const MainLayout = () => {
                 <main className="content-area">
                     <Outlet />
                 </main>
-                <Footer />
+                <Footer isSidebarOpen={isSidebarOpen} />
             </div>
         </div>
     );

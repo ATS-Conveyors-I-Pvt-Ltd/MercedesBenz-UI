@@ -1,11 +1,11 @@
 import React from 'react';
 import './Footer.css';
 
-const Footer = () => {
+const Footer = ({ isSidebarOpen = false }) => {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="global-footer">
+        <footer className={`global-footer ${!isSidebarOpen ? 'full-width' : ''}`}>
             <div className="footer-content">
                 <div className="footer-logo-section">
                     <img src="/assets/ATS_Logo.png" alt="ATS Group Reference" className="footer-logo" />

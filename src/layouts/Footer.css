@@ -1,7 +1,8 @@
 .global-footer {
     position: fixed;
     bottom: 0;
-    left: 0;
+    left: 280px;
+    /* Start after sidebar (default when sidebar is open) */
     right: 0;
     background: rgba(255, 255, 255, 0.85);
     /* Slightly more opaque for better readability */
@@ -12,7 +13,8 @@
     color: #1a202c;
     /* Softer black */
     padding: 15px 30px;
-    width: 100%;
+    width: auto;
+    /* Auto width to fit available space */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,7 +23,13 @@
     /* Ensure it stays on top of all content */
     box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.08);
     /* More pronounced shadow for depth */
-    transition: all 0.3s ease;
+    transition: all 0.3s ease-in-out;
+    /* Smooth transition when sidebar toggles */
+}
+
+/* When sidebar is closed - footer spans full width */
+.global-footer.full-width {
+    left: 0;
 }
 
 .footer-content {

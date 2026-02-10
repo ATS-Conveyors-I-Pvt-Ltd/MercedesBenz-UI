@@ -8,6 +8,8 @@ const AuditTrail = () => {
     const { activityLogs, currentUser } = useAuth();
     const [searchTerm, setSearchTerm] = useState('');
     const [expandedUser, setExpandedUser] = useState(null);
+    const [emailStatus, setEmailStatus] = useState({ configured: false, message: '' });
+    const [sendingEmail, setSendingEmail] = useState(false);
 
     if (currentUser?.role !== 'admin') {
         return (
@@ -94,6 +96,56 @@ const AuditTrail = () => {
         XLSX.writeFile(workbook, `Audit_Logs_${safeName}_${timestamp}.xlsx`);
     };
 
+    // Check email service status on component mount
+    React.useEffect(() => {
+        checkEmailStatus();
+    }, []);
+
+    const checkEmailStatus = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/api/test-email');
+            const data = await response.json();
+            setEmailStatus({
+                configured: data.success,
+                message: data.success ? 'Email service is active' : data.message
+            });
+        } catch (error) {
+            setEmailStatus({
+                configured: false,
+                message: 'Unable to connect to server'
+            });
+        }
+    };
+
+    const sendDailyReport = async () => {
+        setSendingEmail(true);
+        try {
+            const stats = {
+                totalActivities: activityLogs.length,
+                uniqueUsers: new Set(activityLogs.map(l => l.userId)).size,
+                loginCount: activityLogs.filter(l => l.action === 'Login').length
+            };
+
+            const response = await fetch('http://localhost:3001/api/send-daily-report', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ logs: activityLogs, stats })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                alert('✅ Daily report sent successfully!');
+            } else {
+                alert(`⚠️ ${data.message || 'Failed to send report'}`);
+            }
+        } catch (error) {
+            alert('❌ Error sending daily report: ' + error.message);
+        } finally {
+            setSendingEmail(false);
+        }
+    };
+
     return (
         <div className="audit-trail-container">
             <div className="audit-header">
@@ -112,6 +164,100 @@ const AuditTrail = () => {
                         <Download size={16} /> Download All Audit Trail
                     </button>
                 </div>
+            </div>
+
+            {/* Email Notification Controls */}
+            <div style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                padding: '20px',
+                borderRadius: '12px',
+                marginBottom: '20px',
+                boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)'
+            }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                        <h3 style={{ color: 'white', margin: '0 0 8px 0', fontSize: '18px', fontWeight: '600' }}>
+                            📧 Email Notification Service
+                        </h3>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <span style={{
+                                display: 'inline-block',
+                                width: '8px',
+                                height: '8px',
+                                borderRadius: '50%',
+                                background: emailStatus.configured ? '#48bb78' : '#f56565',
+                                boxShadow: emailStatus.configured ? '0 0 8px #48bb78' : '0 0 8px #f56565',
+                                animation: 'pulse 2s infinite'
+                            }}></span>
+                            <span style={{ color: 'white', fontSize: '14px', opacity: 0.95 }}>
+                                {emailStatus.message}
+                            </span>
+                        </div>
+                    </div>
+                    <div style={{ display: 'flex', gap: '12px' }}>
+                        <button
+                            onClick={checkEmailStatus}
+                            style={{
+                                background: 'rgba(255, 255, 255, 0.2)',
+                                color: 'white',
+                                border: '1px solid rgba(255, 255, 255, 0.3)',
+                                padding: '10px 20px',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                fontSize: '14px',
+                                fontWeight: '500',
+                                transition: 'all 0.3s ease',
+                                backdropFilter: 'blur(10px)'
+                            }}
+                            onMouseOver={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.3)'}
+                            onMouseOut={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
+                        >
+                            🔄 Refresh Status
+                        </button>
+                        <button
+                            onClick={sendDailyReport}
+                            disabled={!emailStatus.configured || sendingEmail}
+                            style={{
+                                background: emailStatus.configured && !sendingEmail ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.4)',
+                                color: emailStatus.configured && !sendingEmail ? '#667eea' : '#999',
+                                border: 'none',
+                                padding: '10px 24px',
+                                borderRadius: '8px',
+                                cursor: emailStatus.configured && !sendingEmail ? 'pointer' : 'not-allowed',
+                                fontSize: '14px',
+                                fontWeight: '600',
+                                transition: 'all 0.3s ease',
+                                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+                            }}
+                            onMouseOver={(e) => {
+                                if (emailStatus.configured && !sendingEmail) {
+                                    e.target.style.transform = 'translateY(-2px)';
+                                    e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+                                }
+                            }}
+                            onMouseOut={(e) => {
+                                e.target.style.transform = 'translateY(0)';
+                                e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                            }}
+                        >
+                            {sendingEmail ? '⏳ Sending...' : '📨 Send Daily Report Now'}
+                        </button>
+                    </div>
+                </div>
+                {!emailStatus.configured && (
+                    <div style={{
+                        marginTop: '15px',
+                        padding: '12px',
+                        background: 'rgba(255, 255, 255, 0.15)',
+                        borderRadius: '6px',
+                        border: '1px solid rgba(255, 255, 255, 0.2)'
+                    }}>
+                        <p style={{ color: 'white', fontSize: '13px', margin: 0 }}>
+                            ⚠️ To enable email notifications, please configure your email settings in the <code style={{ background: 'rgba(0,0,0,0.2)', padding: '2px 6px', borderRadius: '3px' }}>.env</code> file.
+                            See <strong>EMAIL_SETUP.md</strong> for detailed instructions.
+                        </p>
+                    </div>
+                )}
             </div>
 
             <div className="table-wrapper">

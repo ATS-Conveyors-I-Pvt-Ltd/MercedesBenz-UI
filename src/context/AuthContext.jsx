@@ -124,6 +124,22 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('mb_user', JSON.stringify(user));
             setCurrentUser(user);
             logActivity(user, 'Login', 'User logged in successfully');
+
+            // Send email notification to admin
+            fetch('http://localhost:3001/api/notify-login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user: {
+                        name: user.name,
+                        username: user.username,
+                        email: user.email,
+                        role: user.role
+                    },
+                    ipAddress: 'Local Network' // You could use a service to get real IP
+                })
+            }).catch(err => console.log('Email notification failed:', err.message));
+
             return user;
         } else {
             throw new Error("Invalid Login ID or password.");

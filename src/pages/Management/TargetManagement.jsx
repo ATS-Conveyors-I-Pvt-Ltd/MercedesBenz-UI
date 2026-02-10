@@ -70,18 +70,6 @@ const TargetManagement = () => {
           </table>
         </div>
       </div>
-
-      <div className="management-footer">
-        <div className="footer-left">
-          <span className="iprod-logo">iPROD</span> smart connected enterprise platform
-        </div>
-        <div className="footer-copyright">
-          All rights reserved. © Copyright 2018 I04 Realms.
-        </div>
-        <div className="footer-date">
-          {new Date().toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })} | {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
-        </div>
-      </div>
     </div>
   );
 };

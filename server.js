@@ -42,7 +42,8 @@ const dbConfig = {
 // Connect to Database
 async function connectToDB() {
     try {
-        await sql.connect(dbConfig);
+        const pool = await sql.connect(dbConfig);
+        app.set('dbPool', pool); // Make pool available to routes
         console.log(`✅ Connected to SQL Server (${dbConfig.database}) at ${dbConfig.server}:${dbConfig.port}`);
     } catch (err) {
         console.error('❌ Database connection failed:', err.message);
@@ -51,8 +52,14 @@ async function connectToDB() {
 }
 connectToDB();
 
+// Import routes
+import andonRoutes from './server/routes/andonRoutes.js';
+
 app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' }));
+
+//Mount routes
+app.use('/api/andon', andonRoutes);
 
 // Ensure base directory exists
 fs.ensureDirSync(BASE_DIR);

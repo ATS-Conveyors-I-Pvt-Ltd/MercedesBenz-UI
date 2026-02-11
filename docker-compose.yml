@@ -1,8 +1,7 @@
-version: '3.8'
-
 services:
   mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64
     container_name: mercedes-benz-mssql
     hostname: mssql
     ports:

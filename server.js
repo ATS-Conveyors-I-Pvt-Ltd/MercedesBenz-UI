@@ -14,7 +14,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3001;
-const BASE_DIR = path.join(__dirname, 'Audit_Trial_Report_AutoSave');
+const BASE_DIR = path.join(__dirname, 'data', 'audit-reports', 'Audit_Trial_Report_AutoSave');
 
 // Database Configuration
 const dbConfig = {

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANDON – Trim 4</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            overflow: hidden;
+        }
+
+        /* ================= SCREEN CONTROL ================= */
+        #screen-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background: #f4f5f7;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* ================= ANDON ================= */
+        .dashboard-container {
+            height: 100%;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .dashboard-table {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .production-table {
+            flex: 2;
+        }
+
+        .time-table {
+            flex: 1;
+        }
+
+        /* ================= HEADERS (UNCHANGED SIZE) ================= */
+        .table-main-title {
+            background: linear-gradient(135deg, #000, #2c3e50);
+            color: #fff;
+            font-size: clamp(28px, 3vw, 42px);
+            /* ❌ unchanged */
+            padding: 18px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .breakdown-header h2 {
+            margin: 0;
+            font-size: clamp(26px, 3vw, 42px);
+            /* ❌ unchanged */
+            text-transform: uppercase;
+        }
+
+        /* ================= COLUMN HEADERS (BIGGER) ================= */
+        .column-header {
+            background: #e9ecef;
+            font-size: clamp(26px, 2.8vw, 40px);
+            /* ✅ bigger */
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #ced4da;
+        }
+
+        /* ================= ROW LABELS (BIGGER) ================= */
+        .row-label {
+            font-size: clamp(34px, 3.4vw, 50px);
+            /* ✅ bigger */
+            font-weight: 800;
+            padding: 24px;
+            text-align: center;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            white-space: nowrap;
+        }
+
+        /* ================= DATA VALUES (VERY BIG) ================= */
+        .data-value {
+            font-size: clamp(46px, 4.5vw, 70px);
+            /* ✅ very big */
+            font-weight: 900;
+            padding: 24px;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+            white-space: nowrap;
+        }
+
+        .big-value {
+            font-size: clamp(56px, 5.4vw, 82px);
+            /* ✅ huge but safe */
+        }
+
+        /* ================= COLORS ================= */
+        .green-text {
+            color: #00b894;
+        }
+
+        .red-text {
+            color: #d63031;
+        }
+
+        /* ================= BREAKDOWN ================= */
+        .breakdown-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .breakdown-header {
+            background: #002b49;
+            color: white;
+            padding: 22px;
+            text-align: center;
+            border-bottom: 5px solid #00adef;
+        }
+
+        .breakdown-grid {
+            flex: 1;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .breakdown-card {
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            font-weight: 900;
+        }
+
+        .card-label {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: clamp(28px, 2.6vw, 40px);
+            /* ✅ bigger */
+            opacity: 0.9;
+        }
+
+        /* ================= L M Q P (VERY BIG) ================= */
+        .card-content {
+            display: flex;
+            gap: 90px;
+            align-items: center;
+        }
+
+        .big-letter {
+            font-size: clamp(160px, 12vw, 220px);
+            /* ✅ huge */
+        }
+
+        .big-number {
+            font-size: clamp(130px, 10vw, 200px);
+            /* ✅ huge */
+        }
+
+        /* ================= CARD COLORS ================= */
+        .logistics {
+            background: linear-gradient(135deg, #00b4eb, #0077a3);
+            color: #fff;
+        }
+
+        .maintenance {
+            background: linear-gradient(135deg, #ff9f43, #ff6b00);
+            color: #fff;
+        }
+
+        .quality {
+            background: linear-gradient(135deg, #ffffff, #e8e8e8);
+            color: #333;
+        }
+
+        .production {
+            background: linear-gradient(135deg, #ffd32a, #ffa801);
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="screen-container">
+
+        <!-- ================= SCREEN 1 ================= -->
+        <div id="andon-screen" class="screen active">
+            <div class="dashboard-container">
+
+                <table class="dashboard-table production-table">
+                    <thead>
+                        <tr>
+                            <th colspan="4" class="table-main-title">
+                                Production Status – Trim 4
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="column-header">SHIFT</th>
+                            <th class="column-header">TARGET</th>
+                            <th class="column-header">DUE</th>
+                            <th class="column-header">ACTUAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-label">SHIFT 1</td>
+                            <td class="data-value green-text">145</td>
+                            <td class="data-value">120</td>
+                            <td class="data-value red-text">118</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">SHIFT 2</td>
+                            <td class="data-value green-text">0</td>
+                            <td class="data-value">0</td>
+                            <td class="data-value red-text">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="dashboard-table time-table">
+                    <thead>
+                        <tr>
+                            <th class="column-header">TAKT</th>
+                            <th class="column-header">LEFT TIME</th>
+                            <th class="column-header">LOST TIME</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="data-value big-value green-text">02:30</td>
+                            <td class="data-value big-value">19:20</td>
+                            <td class="data-value big-value red-text">05:15</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <!-- ================= SCREEN 2 ================= -->
+        <div id="breakdown-screen" class="screen">
+            <div class="breakdown-container">
+
+                <div class="breakdown-header">
+                    <h2>Breakdown Alarm – Trim 4</h2>
+                </div>
+
+                <div class="breakdown-grid">
+
+                    <div class="breakdown-card logistics">
+                        <span class="card-label">Logistics</span>
+                        <div class="card-content">
+                            <span class="big-letter">L</span>
+                            <span class="big-number">0</span>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-card maintenance">
+                        <span class="card-label">Maintenance</span>
+                        <div class="card-content">
+                            <span class="big-letter">M</span>
+                            <span class="big-number">1</span>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-card quality">
+                        <span class="card-label">Quality</span>
+                        <div class="card-content">
+                            <span class="big-letter">Q</span>
+                            <span class="big-number">0</span>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-card production">
+                        <span class="card-label">Production</span>
+                        <div class="card-content">
+                            <span class="big-letter">P</span>
+                            <span class="big-number">0</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= ROTATION ================= -->
+    <script>
+        const screens = [
+            { id: 'andon-screen', duration: 6000 },
+            { id: 'breakdown-screen', duration: 4000 }
+        ];
+
+        let current = 0;
+
+        function rotateScreens() {
+            document.getElementById(screens[current].id).classList.remove('active');
+            current = (current + 1) % screens.length;
+            document.getElementById(screens[current].id).classList.add('active');
+            setTimeout(rotateScreens, screens[current].duration);
+        }
+
+        setTimeout(rotateScreens, screens[0].duration);
+    </script>
+
+</body>
+
+</html>

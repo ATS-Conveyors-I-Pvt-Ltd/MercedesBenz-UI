@@ -14,7 +14,11 @@ lerna-debug.log*
 .env.test.local
 .env.production.local
 
-# Auto-saved audit reports
+# Auto-saved audit reports and data
+data/audit-reports/*
+!data/audit-reports/.gitkeep
+data/exports/*
+!data/exports/.gitkeep
 Audit_Trial_Report_AutoSave/
 
 node_modules

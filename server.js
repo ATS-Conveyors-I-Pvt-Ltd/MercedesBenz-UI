@@ -7,7 +7,11 @@ import { fileURLToPath } from 'url';
 import XLSX from 'xlsx';
 import sql from 'mssql';
 import cron from 'node-cron';
+import dotenv from 'dotenv';
 import emailService from './services/emailService.js';
+
+// Load environment variables
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,15 +20,22 @@ const app = express();
 const PORT = 3001;
 const BASE_DIR = path.join(__dirname, 'data', 'audit-reports', 'Audit_Trial_Report_AutoSave');
 
-// Database Configuration
+// Database Configuration from environment variables
 const dbConfig = {
-    user: 'sa',
-    password: 'YourStrong!Passw0rd',
-    server: 'localhost',
-    database: 'iprod_mercedes_benz_db',
+    user: process.env.DB_USER || 'sa',
+    password: process.env.DB_PASSWORD || 'MercedesBenz2026!',
+    server: process.env.DB_SERVER || 'localhost',
+    port: parseInt(process.env.DB_PORT) || 1433,
+    database: process.env.DB_NAME || 'mercedes_benz_db',
     options: {
-        encrypt: true,
-        trustServerCertificate: true
+        encrypt: process.env.DB_ENCRYPT === 'true',
+        trustServerCertificate: process.env.DB_TRUST_CERTIFICATE === 'true',
+        enableArithAbort: true
+    },
+    pool: {
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 30000
     }
 };
 
@@ -32,9 +43,10 @@ const dbConfig = {
 async function connectToDB() {
     try {
         await sql.connect(dbConfig);
-        console.log('✅ Connected to SQL Server (iprod_mercedes_benz_db)');
+        console.log(`✅ Connected to SQL Server (${dbConfig.database}) at ${dbConfig.server}:${dbConfig.port}`);
     } catch (err) {
-        console.error('❌ Database connection failed:', err);
+        console.error('❌ Database connection failed:', err.message);
+        console.error('💡 Make sure Docker SQL Server is running: ./scripts/database.sh start');
     }
 }
 connectToDB();

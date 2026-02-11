@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mercedes-benz-mssql
+    hostname: mssql
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "MercedesBenz2026!"
+      MSSQL_PID: "Developer"
+    volumes:
+      - mssql-data:/var/opt/mssql
+      - ./data/database:/database
+      - ./scripts/sql:/scripts
+    networks:
+      - mercedes-network
+    restart: unless-stopped
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P MercedesBenz2026! -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  mssql-data:
+    driver: local
+
+networks:
+  mercedes-network:
+    driver: bridge

@@ -3,7 +3,7 @@ import BreakdownDashboard from './BreakdownDashboard';
 import './Trim5Breakdown.css';
 
 const Trim5Breakdown = () => {
-  return <BreakdownDashboard lineName="Trim5" />;
+  return <BreakdownDashboard lineId={2} lineName="TRIM-5" />;
 };
 
 export default Trim5Breakdown;

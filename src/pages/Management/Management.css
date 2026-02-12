@@ -284,7 +284,7 @@
 /* --- ACTION BUTTONS --- */
 .action-btn-group {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 8px;
 }
 

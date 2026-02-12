@@ -116,14 +116,14 @@ const Sidebar = ({ isOpen, toggle }) => {
               <ChevronRight className={`dropdown-arrow ${openMenus.breakdown ? 'open' : ''}`} />
             </div>
             <div className={`submenu ${openMenus.breakdown ? 'open' : ''}`}>
-              <NavLink to="/breakdown/trim4" onClick={() => handleNavClick('Breakdown', 'Trim 4')}>Trim 4</NavLink>
-              <NavLink to="/breakdown/cart-trim" onClick={() => handleNavClick('Breakdown', 'Shopping Cart Trim')}>Shopping Cart Trim</NavLink>
-              <NavLink to="/breakdown/trim5" onClick={() => handleNavClick('Breakdown', 'Trim 5')}>Trim 5</NavLink>
-              <NavLink to="/breakdown/cart-mech" onClick={() => handleNavClick('Breakdown', 'Shopping Cart Mech')}>Shopping Cart Mech</NavLink>
-              <NavLink to="/breakdown/mech3" onClick={() => handleNavClick('Breakdown', 'Mech 3')}>Mech 3</NavLink>
-              <NavLink to="/breakdown/mech4" onClick={() => handleNavClick('Breakdown', 'Mech 4')}>Mech 4</NavLink>
-              <NavLink to="/breakdown/finish1" onClick={() => handleNavClick('Breakdown', 'Finish 1')}>Finish 1</NavLink>
-              <NavLink to="/breakdown/finish2" onClick={() => handleNavClick('Breakdown', 'Finish 2')}>Finish 2</NavLink>
+              <NavLink to="/breakdown/trim4" onClick={() => handleNavClick('Breakdown', 'TRIM-4')}>TRIM-4</NavLink>
+              <NavLink to="/breakdown/trim5" onClick={() => handleNavClick('Breakdown', 'TRIM-5')}>TRIM-5</NavLink>
+              <NavLink to="/breakdown/cart-trim" onClick={() => handleNavClick('Breakdown', 'TRIM-6')}>TRIM-6</NavLink>
+              <NavLink to="/breakdown/mech3" onClick={() => handleNavClick('Breakdown', 'MECH-3')}>MECH-3</NavLink>
+              <NavLink to="/breakdown/mech4" onClick={() => handleNavClick('Breakdown', 'MECH-4')}>MECH-4</NavLink>
+              <NavLink to="/breakdown/cart-mech" onClick={() => handleNavClick('Breakdown', 'MECH-5')}>MECH-5</NavLink>
+              <NavLink to="/breakdown/finish1" onClick={() => handleNavClick('Breakdown', 'FINISH-1')}>FINISH-1</NavLink>
+              <NavLink to="/breakdown/finish2" onClick={() => handleNavClick('Breakdown', 'FINISH-2')}>FINISH-2</NavLink>
             </div>
 
             {/* MANAGEMENT Menu */}

@@ -3,7 +3,7 @@ import BreakdownDashboard from './BreakdownDashboard';
 import './ShoppingCartTrimBreakdown.css';
 
 const ShoppingCartTrimBreakdown = () => {
-  return <BreakdownDashboard lineName="ShoppingCartTrim" />;
+  return <BreakdownDashboard lineId={3} lineName="TRIM-6" />;
 };
 
 export default ShoppingCartTrimBreakdown;

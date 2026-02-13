@@ -1,1 +1,57 @@
 @import './Management.css';
+
+.actual-table td.col-empty {
+    text-align: center;
+    padding: 24px;
+    font-size: 13px;
+    color: #666;
+}
+
+.actual-table td:nth-child(5),
+.actual-table th:nth-child(5) {
+    text-align: center;
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+}
+
+.actual-table th.col-action,
+.actual-table td.col-action {
+    width: 260px !important;
+    min-width: 260px !important;
+    max-width: 260px !important;
+}
+
+.actual-table .action-btn-group {
+    justify-content: center;
+    gap: 10px;
+}
+
+.actual-table .action-btn {
+    width: auto;
+    min-width: 70px;
+    height: 32px;
+    padding: 0 12px;
+    font-size: 13px;
+}
+
+.actual-table .action-btn.save {
+    background-color: #bbf7d0;
+    color: #166534;
+}
+
+.actual-table .action-btn.save:hover {
+    background-color: #86efac;
+}
+
+.actual-table .action-btn.cancel {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.actual-table .action-btn.cancel:hover {
+    background-color: #fecaca;
+}
+
+/* For MANAGE ACTUAL we keep the standard Management table look (like MANAGE DAYS),
+   so we do not override header colors or add stripes here. */

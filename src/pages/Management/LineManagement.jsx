@@ -77,7 +77,7 @@ const LineManagement = () => {
     <div className="management-container">
       <div className="management-header">
         <div className="header-title-section">
-          <h2>MANAGE LINE <span className="header-subtitle">line details and more</span></h2>
+          <h2>MANAGE LINE</h2>
         </div>
         <div className="header-brand">Mercedes-Benz India</div>
       </div>

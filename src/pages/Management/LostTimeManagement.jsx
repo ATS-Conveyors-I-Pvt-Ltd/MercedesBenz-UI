@@ -13,7 +13,7 @@ const LostTimeManagement = () => {
     <div className="management-container">
       <div className="management-header">
         <div className="header-title-section">
-          <h2>MANAGE LOST TIME <span className="header-subtitle">lost time details and more</span></h2>
+          <h2>MANAGE LOST TIME</h2>
         </div>
         <div className="header-brand">Mercedes-Benz India</div>
       </div>

@@ -22,7 +22,7 @@ const ActualManagement = () => {
     <div className="management-container">
       <div className="management-header">
         <div className="header-title-section">
-          <h2>MANAGE ACTUAL <span className="header-subtitle">actual details and more</span></h2>
+          <h2>MANAGE ACTUAL</h2>
         </div>
         <div className="header-brand">Mercedes-Benz India</div>
       </div>

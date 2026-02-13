@@ -16,7 +16,7 @@ const ShiftManagement = () => {
     <div className="management-container">
       <div className="management-header">
         <div className="header-title-section">
-          <h2>MANAGE SHIFT <span className="header-subtitle">shift details and more</span></h2>
+          <h2>MANAGE SHIFT</h2>
         </div>
         <div className="header-brand">Mercedes-Benz India</div>
       </div>

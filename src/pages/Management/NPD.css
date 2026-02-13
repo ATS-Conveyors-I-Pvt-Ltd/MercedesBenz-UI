@@ -1,5 +1,176 @@
 @import './Management.css';
 
+/* Header with Add button */
+.management-header .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.npd-add-btn {
+  background-color: #bbf7d0;
+  color: #166534;
+  border: none;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 6px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.npd-add-btn:hover {
+  background-color: #86efac;
+}
+
+/* Modal overlay */
+.npd-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.npd-modal {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  min-width: 360px;
+  max-width: 90vw;
+}
+
+.npd-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.npd-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.npd-modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.npd-modal-close:hover {
+  color: #111827;
+}
+
+/* Form */
+.npd-form {
+  padding: 20px;
+}
+
+.npd-form-group {
+  margin-bottom: 16px;
+}
+
+.npd-form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.npd-form-group input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.npd-form-group input:focus {
+  outline: none;
+  border-color: #0078d7;
+  box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.1);
+}
+
+.npd-form-success {
+  padding: 10px 12px;
+  background: #bbf7d0;
+  color: #166534;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.npd-form-error {
+  padding: 10px 12px;
+  background: #fee2e2;
+  color: #b91c1c;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.npd-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.npd-btn-cancel {
+  background: #e5e7eb;
+  color: #374151;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.npd-btn-cancel:hover {
+  background: #d1d5db;
+}
+
+.npd-btn-submit {
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.npd-btn-submit:hover:not(:disabled) {
+  background: #15803d;
+}
+
+.npd-btn-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .toggle-switch {
     display: inline-flex;
     border: 1px solid #ccc;

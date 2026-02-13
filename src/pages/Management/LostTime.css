@@ -1,1 +1,107 @@
 @import './Management.css';
+
+.lost-time-table td.col-empty {
+  text-align: center;
+  padding: 24px;
+  font-size: 13px;
+  color: #666;
+}
+
+.lost-time-table th.col-id,
+.lost-time-table td.col-id {
+  width: 44px;
+  min-width: 44px;
+  max-width: 44px;
+  text-align: center;
+}
+
+.lost-time-table td:nth-child(2),
+.lost-time-table th:nth-child(2) {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}
+
+.lost-time-table td:nth-child(3),
+.lost-time-table th:nth-child(3) {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}
+
+.lost-time-table td:nth-child(4),
+.lost-time-table th:nth-child(4) {
+  width: 108px;
+  min-width: 108px;
+  max-width: 108px;
+}
+
+.lost-time-table td:nth-child(5),
+.lost-time-table th:nth-child(5) {
+  width: 132px;
+  min-width: 132px;
+  max-width: 132px;
+  text-align: center;
+}
+
+.lost-time-table td:nth-child(6),
+.lost-time-table th:nth-child(6) {
+  width: 90px;
+  min-width: 90px;
+  max-width: 90px;
+}
+
+.lost-time-table th.col-action,
+.lost-time-table td.col-action {
+  width: 260px !important;
+  min-width: 260px !important;
+  max-width: 260px !important;
+  text-align: center;
+  overflow: visible;
+}
+
+.lost-time-table td.col-action .action-btn-group {
+  display: inline-flex;
+  flex-wrap: nowrap;
+}
+
+.lost-time-table .action-btn-group {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.lost-time-table .action-btn {
+  width: auto !important;
+  min-width: 52px !important;
+  height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.lost-time-table .action-btn.save {
+  background-color: #bbf7d0;
+  color: #166534;
+}
+
+.lost-time-table .action-btn.save:hover {
+  background-color: #86efac;
+}
+
+.lost-time-table .action-btn.cancel {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  min-width: 56px !important;
+}
+
+.lost-time-table .action-btn.cancel:hover {
+  background-color: #fecaca;
+}

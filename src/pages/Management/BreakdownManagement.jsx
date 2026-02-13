@@ -18,7 +18,7 @@ const BreakdownManagement = () => {
     <div className="management-container">
       <div className="management-header">
         <div className="header-title-section">
-          <h2>MANAGE BREAKDOWN DETAILS <span className="header-subtitle">station details and more</span></h2>
+          <h2>MANAGE BREAKDOWN DETAILS</h2>
         </div>
         <div className="header-brand">Mercedes-Benz India</div>
       </div>

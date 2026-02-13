@@ -34,7 +34,7 @@ const StakeholderReason = () => {
         <div className="management-container">
             <div className="management-header">
                 <div className="header-title-section">
-                    <h2>MANAGE STAKEHOLDER REASON <span className="header-subtitle">reason details and more</span></h2>
+                    <h2>MANAGE STAKEHOLDER REASON</h2>
                 </div>
                 <div className="header-brand">Mercedes-Benz India</div>
             </div>

@@ -29,7 +29,7 @@ const TargetManagement = () => {
     <div className="management-container">
       <div className="management-header">
         <div className="header-title-section">
-          <h2>MANAGE LINE SHIFT TARGET <span className="header-subtitle">line shift details and more</span></h2>
+          <h2>MANAGE LINE SHIFT TARGET</h2>
         </div>
         <div className="header-brand">Mercedes-Benz India</div>
       </div>

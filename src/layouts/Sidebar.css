@@ -209,3 +209,10 @@
     color: white;
     background-color: rgba(255, 255, 255, 0.05);
 }
+
+.highlight-link {
+    color: #ffd700 !important;
+    /* Gold color to stand out */
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}

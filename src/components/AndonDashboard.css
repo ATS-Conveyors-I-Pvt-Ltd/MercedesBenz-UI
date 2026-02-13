@@ -1,0 +1,270 @@
+.andon-dashboard {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #f5f5f5;
+    min-height: 100vh;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    color: #333;
+    font-size: 2rem;
+}
+
+.line-selector {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.line-selector label {
+    font-weight: 600;
+    color: #555;
+}
+
+.line-selector select {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.metric-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #007bff;
+}
+
+.metric-card.takt-time {
+    border-left-color: #28a745;
+}
+
+.metric-card.efficiency {
+    border-left-color: #ffc107;
+}
+
+.metric-card.time-lost {
+    border-left-color: #dc3545;
+}
+
+.metric-card h3 {
+    margin: 0 0 1rem 0;
+    color: #555;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.metric-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.metric-value span {
+    font-size: 1rem;
+    color: #777;
+    font-weight: normal;
+}
+
+.metric-details {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.metric-details p {
+    margin: 0.5rem 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Production Table */
+.production-table {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.production-table h2 {
+    margin: 0 0 1.5rem 0;
+    color: #333;
+}
+
+.production-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.production-table thead {
+    background: #f8f9fa;
+}
+
+.production-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #555;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.production-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.production-table tr:hover {
+    background: #f8f9fa;
+}
+
+.production-table .actuals {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.production-table .good {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.production-table .warning {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.production-table .danger {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Buttons */
+.btn-update {
+    padding: 0.5rem 1rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.btn-update:hover {
+    background: #0056b3;
+}
+
+.btn-refresh {
+    padding: 0.75rem 1.5rem;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+.btn-refresh:hover {
+    background: #218838;
+}
+
+/* Dashboard Footer */
+.dashboard-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-footer p {
+    margin: 0;
+    color: #666;
+}
+
+/* Loading & Error States */
+.loading,
+.error {
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.loading {
+    color: #666;
+    font-size: 1.2rem;
+}
+
+.error {
+    color: #dc3545;
+}
+
+.error h3 {
+    margin: 0 0 1rem 0;
+}
+
+.error button {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.error button:hover {
+    background: #c82333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .production-table {
+        overflow-x: auto;
+    }
+
+    .dashboard-footer {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}

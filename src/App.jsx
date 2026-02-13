@@ -4,6 +4,7 @@ import MainLayout from './layouts/MainLayout';
 import LoadingScreen from './layouts/LoadingScreen';
 import Dashboard from './pages/Dashboard/Dashboard';
 import AndonOverview from './pages/AndonOverview';
+import AndonDashboard from './components/AndonDashboard';
 
 import Finish1Dashboard from './pages/Andon/Finish1Dashboard';
 import Trim4 from './pages/Andon/Trim4';
@@ -83,6 +84,7 @@ const AppContent = () => {
           <Route path="andon/cart-mech" element={<ShoppingCartMech />} />
           <Route path="andon/mech3" element={<Mech3 />} />
           <Route path="andon/mech4" element={<Mech4 />} />
+          <Route path="andon/dashboard" element={<AndonDashboard />} />
           <Route path="andon/finish1" element={<Finish1Dashboard />} />
           <Route path="andon/finish2" element={<Finish2 />} />
 

@@ -99,6 +99,7 @@ const Sidebar = ({ isOpen, toggle }) => {
               <ChevronRight className={`dropdown-arrow ${openMenus.andon ? 'open' : ''}`} />
             </div>
             <div className={`submenu ${openMenus.andon ? 'open' : ''}`}>
+              <NavLink to="/andon/dashboard" onClick={() => handleNavClick('Andon', 'Production Dashboard')} className="highlight-link"> Production Dashboard</NavLink>
               <NavLink to="/andon/trim4" onClick={() => handleNavClick('Andon', 'Trim 4')}>Trim 4</NavLink>
               <NavLink to="/andon/cart-trim" onClick={() => handleNavClick('Andon', 'Shopping Cart Trim')}>Shopping Cart Trim</NavLink>
               <NavLink to="/andon/trim5" onClick={() => handleNavClick('Andon', 'Trim 5')}>Trim 5</NavLink>

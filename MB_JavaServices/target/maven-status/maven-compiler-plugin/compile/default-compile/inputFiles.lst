@@ -1,0 +1,10 @@
+/Users/admin/Desktop/Mercedes Benz UI/mercedes-benz-react-app/MB_JavaServices/src/main/java/com/ats/mercedesbenz/dto/JsonResponseDto.java
+/Users/admin/Desktop/Mercedes Benz UI/mercedes-benz-react-app/MB_JavaServices/src/main/java/com/ats/mercedesbenz/config/CorsConfig.java
+/Users/admin/Desktop/Mercedes Benz UI/mercedes-benz-react-app/MB_JavaServices/src/main/java/com/ats/mercedesbenz/entity/AndonSummaryQueue.java
+/Users/admin/Desktop/Mercedes Benz UI/mercedes-benz-react-app/MB_JavaServices/src/main/java/com/ats/mercedesbenz/util/TaktTimeCalculator.java
+/Users/admin/Desktop/Mercedes Benz UI/mercedes-benz-react-app/MB_JavaServices/src/main/java/com/ats/mercedesbenz/dto/AndonSummaryQueueDto.java
+/Users/admin/Desktop/Mercedes Benz UI/mercedes-benz-react-app/MB_JavaServices/src/main/java/com/ats/mercedesbenz/repository/AndonSummaryQueueRepository.java
+/Users/admin/Desktop/Mercedes Benz UI/mercedes-benz-react-app/MB_JavaServices/src/main/java/com/ats/mercedesbenz/MercedesBenzApplication.java
+/Users/admin/Desktop/Mercedes Benz UI/mercedes-benz-react-app/MB_JavaServices/src/main/java/com/ats/mercedesbenz/service/AndonService.java
+/Users/admin/Desktop/Mercedes Benz UI/mercedes-benz-react-app/MB_JavaServices/src/main/java/com/ats/mercedesbenz/exception/ResourceNotFoundException.java
+/Users/admin/Desktop/Mercedes Benz UI/mercedes-benz-react-app/MB_JavaServices/src/main/java/com/ats/mercedesbenz/controller/AndonController.java

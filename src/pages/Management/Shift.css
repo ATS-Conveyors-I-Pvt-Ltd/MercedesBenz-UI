@@ -1,11 +1,16 @@
 @import './Management.css';
 
-.action-btn-red {
-    background: #FF0000;
-    /* Bright red */
+.action-btn-red,
+.action-btn.delete {
+    background: #2c2c2c;
     color: white;
     border: none;
     padding: 4px 8px;
-    border-radius: 2px;
+    border-radius: 6px;
     cursor: pointer;
+}
+
+.action-btn-red:hover,
+.action-btn.delete:hover {
+    background: #3d3d3d;
 }

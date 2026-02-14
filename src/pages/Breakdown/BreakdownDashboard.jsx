@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './BreakdownDashboard.css';
 
-const API_BASE = 'http://localhost:8907/api/breakdown';
+const API_BASE = 'http://localhost:8087/api/breakdown';
 
 const BreakdownDashboard = ({ lineId, lineName }) => {
   const [data, setData] = useState([]);
@@ -119,36 +119,36 @@ const BreakdownDashboard = ({ lineId, lineName }) => {
           <div className="breakdown-grid">
             <div className="breakdown-card-wrapper">
               <div className="breakdown-card logistics">
-                <span className="card-label">Logistics</span>
                 <div className="card-content">
                   <span className="big-letter">L</span>
+                  <span className="card-divider" />
                   <span className="big-number">{lStation}</span>
                 </div>
               </div>
             </div>
             <div className="breakdown-card-wrapper">
               <div className="breakdown-card maintenance">
-                <span className="card-label">Maintenance</span>
                 <div className="card-content">
                   <span className="big-letter">M</span>
+                  <span className="card-divider" />
                   <span className="big-number">{mStation}</span>
                 </div>
               </div>
             </div>
             <div className="breakdown-card-wrapper">
               <div className="breakdown-card quality">
-                <span className="card-label">Quality</span>
                 <div className="card-content">
                   <span className="big-letter">Q</span>
+                  <span className="card-divider" />
                   <span className="big-number">{qStation}</span>
                 </div>
               </div>
             </div>
             <div className="breakdown-card-wrapper">
               <div className="breakdown-card production">
-                <span className="card-label">Production</span>
                 <div className="card-content">
                   <span className="big-letter">P</span>
+                  <span className="card-divider" />
                   <span className="big-number">{pStation}</span>
                 </div>
               </div>

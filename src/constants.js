@@ -1,2 +1,4 @@
 // src/constants.js
-export const BASE_URL = "http://localhost:8906/api";
+export const BASE_URL = "http://localhost:8088/api";
+// Reports microservice - use relative URL so Vite proxy (dev) or reverse proxy (prod) routes to MBReports :8090
+export const REPORTS_BASE_URL = "";

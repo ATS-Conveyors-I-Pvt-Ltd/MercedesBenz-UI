@@ -17,6 +17,40 @@ export const AuthProvider = ({ children }) => {
     // Services list for permissions
     const SERVICES = ['Andon', 'Breakdown', 'Management', 'Reports', 'Auth'];
 
+    // Roles Database (persisted in localStorage)
+    const [roles, setRoles] = useState(() => {
+        const saved = localStorage.getItem('mb_roles');
+        if (saved) return JSON.parse(saved);
+        return [
+            { id: 'admin', name: 'Admin', permissions: Object.fromEntries(SERVICES.map(s => [s, true])) },
+            { id: 'user', name: 'User', permissions: Object.fromEntries(SERVICES.map(s => [s, false])) }
+        ];
+    });
+
+    useEffect(() => {
+        localStorage.setItem('mb_roles', JSON.stringify(roles));
+    }, [roles]);
+
+    const addRole = (roleData) => {
+        const id = 'role_' + Date.now();
+        setRoles([...roles, { id, ...roleData }]);
+        if (currentUser) logActivity(currentUser, 'Add Role', `Added role ${roleData.name}`);
+    };
+
+    const updateRole = (id, data) => {
+        setRoles(roles.map(r => r.id === id ? { ...r, ...data } : r));
+        if (currentUser) logActivity(currentUser, 'Update Role', `Updated role ${data.name || id}`);
+    };
+
+    const deleteRole = (id) => {
+        const role = roles.find(r => r.id === id);
+        if (role && ['admin', 'user'].includes(id)) {
+            throw new Error('Cannot delete system roles (Admin, User).');
+        }
+        setRoles(roles.filter(r => r.id !== id));
+        if (currentUser) logActivity(currentUser, 'Delete Role', `Deleted role ${role?.name || id}`);
+    };
+
     // Mock Users Database (persisted in localStorage for demo)
     const [users, setUsers] = useState(() => {
         const savedUsers = localStorage.getItem('mb_users');
@@ -236,11 +270,15 @@ export const AuthProvider = ({ children }) => {
 
     const value = {
         currentUser,
-        users, // For Access Matrix
+        users,
+        roles,
         login,
         signup,
         logout,
         SERVICES,
+        addRole,
+        updateRole,
+        deleteRole,
         // Logging
         activityLogs,
         logActivity,

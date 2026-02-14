@@ -154,7 +154,9 @@ const Sidebar = ({ isOpen, toggle }) => {
                 <div className={`submenu ${openMenus.auth ? 'open' : ''}`}>
                   <NavLink to="/auth/access-matrix" onClick={() => handleNavClick('Authorization', 'Access Matrix')}>Access Matrix</NavLink>
                   <NavLink to="/auth/users" onClick={() => handleNavClick('Authorization', 'Manage Users')}>Manage Users</NavLink>
-                  <NavLink to="/auth/roles" onClick={() => handleNavClick('Authorization', 'Manage Roles')}>Manage Roles</NavLink>
+                  {currentUser?.role === 'admin' && (
+                    <NavLink to="/auth/roles" onClick={() => handleNavClick('Authorization', 'Manage Roles')}>Manage Roles</NavLink>
+                  )}
                 </div>
               </>
             )}
@@ -166,7 +168,6 @@ const Sidebar = ({ isOpen, toggle }) => {
               <ChevronRight className={`dropdown-arrow ${openMenus.reports ? 'open' : ''}`} />
             </div>
             <div className={`submenu ${openMenus.reports ? 'open' : ''}`}>
-              <NavLink to="/reports/infeed" onClick={() => handleNavClick('Reports', 'Infeed Report')}>Infeed Report</NavLink>
               {/* Audit Trail - Admin Only */}
               {currentUser?.role === 'admin' && (
                 <NavLink to="/reports/audit-trail" onClick={() => handleNavClick('Reports', 'Audit Trail')}>Audit Trail</NavLink>

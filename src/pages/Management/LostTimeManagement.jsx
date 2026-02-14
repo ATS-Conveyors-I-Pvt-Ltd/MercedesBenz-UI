@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Search, Edit } from 'lucide-react';
+import React, { useEffect, useState, useMemo } from 'react';
+import { Search, Edit, ChevronLeft, ChevronRight } from 'lucide-react';
 import './LostTime.css';
+import './Management.css';
 
 import { BASE_URL } from '../../constants';
 
@@ -41,6 +42,8 @@ const LostTimeManagement = () => {
   const [editingId, setEditingId] = useState(null);
   const [editLostTime, setEditLostTime] = useState('00:00:00');
   const [saving, setSaving] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
     const fetchLines = async () => {
@@ -97,6 +100,18 @@ const LostTimeManagement = () => {
     fetchProductions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const totalPages = Math.max(1, Math.ceil(productions.length / pageSize));
+  const paginatedRows = useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return productions.slice(start, start + pageSize);
+  }, [productions, page, pageSize]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [fromDate, toDate, lineId, shiftId, productions.length]);
+
+  const goToPage = (p) => setPage(Math.max(1, Math.min(p, totalPages)));
 
   const startEdit = (row) => {
     setEditingId(row.productionId);
@@ -166,12 +181,13 @@ const LostTimeManagement = () => {
           />
         </div>
         <div className="filter-group">
+          <span className="filter-label">Line</span>
           <select
             className="filter-select"
             value={lineId}
             onChange={(e) => setLineId(e.target.value)}
           >
-            <option value="">--All Lines--</option>
+            <option value="">All Lines</option>
             {lines.map((l) => (
               <option key={l.lineId} value={l.lineId}>
                 {l.lineName}
@@ -180,12 +196,13 @@ const LostTimeManagement = () => {
           </select>
         </div>
         <div className="filter-group">
+          <span className="filter-label">Shift</span>
           <select
             className="filter-select"
             value={shiftId}
             onChange={(e) => setShiftId(e.target.value)}
           >
-            <option value="">--All Shifts--</option>
+            <option value="">All Shifts</option>
             {shifts.map((s) => (
               <option key={s.shiftId} value={s.shiftId}>
                 {s.shiftName}
@@ -198,8 +215,8 @@ const LostTimeManagement = () => {
         </button>
       </div>
 
-      <div className="management-content">
-        <div className="table-wrapper">
+      <div className="management-content lost-time-management-content">
+        <div className="table-wrapper lost-time-table-wrapper">
           {loading ? (
             <p style={{ padding: '24px', textAlign: 'center' }}>Loading...</p>
           ) : (
@@ -216,16 +233,19 @@ const LostTimeManagement = () => {
                 </tr>
               </thead>
               <tbody>
-                {productions.length === 0 ? (
+                {paginatedRows.length === 0 ? (
                   <tr>
                     <td colSpan={7} className="col-empty">
-                      Use filters and click Search to load productions.
+                      No productions found.
                     </td>
                   </tr>
                 ) : (
-                  productions.map((row, index) => (
-                    <tr key={row.productionId}>
-                      <td className="col-id">{index + 1}</td>
+                  paginatedRows.map((row, index) => (
+                    <tr
+                      key={row.productionId}
+                      className={index % 2 === 0 ? 'row-even' : 'row-odd'}
+                    >
+                      <td className="col-id">{(page - 1) * pageSize + index + 1}</td>
                       <td>{row.lineName}</td>
                       <td>{row.shiftName}</td>
                       <td>{formatDate(row.productionDate)}</td>
@@ -283,6 +303,43 @@ const LostTimeManagement = () => {
             </table>
           )}
         </div>
+        {!loading && productions.length > 0 && (
+          <div className="stakeholder-pagination lost-time-management-pagination">
+            <div className="pagination-info">
+              Showing {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, productions.length)} of {productions.length}
+            </div>
+            <div className="pagination-controls">
+              <select
+                className="pagination-select"
+                value={pageSize}
+                onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }}
+              >
+                {[10, 20, 50, 100].map((n) => (
+                  <option key={n} value={n}>{n} per page</option>
+                ))}
+              </select>
+              <button
+                type="button"
+                className="pagination-btn"
+                disabled={page <= 1}
+                onClick={() => goToPage(page - 1)}
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <span className="pagination-page">
+                Page {page} of {totalPages}
+              </span>
+              <button
+                type="button"
+                className="pagination-btn"
+                disabled={page >= totalPages}
+                onClick={() => goToPage(page + 1)}
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

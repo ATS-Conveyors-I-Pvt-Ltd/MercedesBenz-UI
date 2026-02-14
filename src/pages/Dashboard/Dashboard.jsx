@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     AreaChart,
     Area,
@@ -9,53 +9,63 @@ import {
     Legend,
     ResponsiveContainer
 } from 'recharts';
+import { DASHBOARD_BASE_URL } from '../../constants';
 import './Dashboard.css';
 
+// Format "2025-12-10" -> "10 Dec 2025"
+const formatPeriodToDisplay = (periodStr) => {
+    if (!periodStr) return '';
+    const d = new Date(periodStr + 'T12:00:00');
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+};
+
+// Map API PeriodSummary[] to chart data format
+const mapApiResponseToChartData = (apiData) => {
+    if (!apiData?.data?.length) return [];
+    const stakeholders = ['Logistics', 'Maintenance', 'Production', 'Quality'];
+    return apiData.data.map((p) => {
+        const row = { date: formatPeriodToDisplay(p.period) };
+        stakeholders.forEach((s) => {
+            row[s] = p.alarmCount?.[s] ?? 0;
+            row[`${s}Time`] = p.timeLossSec?.[s] ?? 0;
+        });
+        return row;
+    });
+};
+
 const Dashboard = () => {
-    // Mock data based on the screenshot (16 Dec 2025)
-    // The screenshot shows single vertical lines of dots, implying data points for specific dates.
-    // I'll create a few data points to make it a line chart, but focus on the '16 Dec 2025' values shown in the tooltip.
-    const data = [
-        {
-            date: '10 Dec 2025',
-            Logistics: 30,
-            Maintenance: 20,
-            Production: 10,
-            Quality: 5,
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-            // Time data (bottom chart values - hypothetical based on scale)
-            LogisticsTime: 10000,
-            MaintenanceTime: 6000,
-            ProductionTime: 4000,
-            QualityTime: 2000,
-        },
-        {
-            date: '16 Dec 2025',
-            Logistics: 39,
-            Maintenance: 26,
-            Production: 10,
-            Quality: 0,
-
-            // Time data
-            LogisticsTime: 12000,
-            MaintenanceTime: 6200,
-            ProductionTime: 4500,
-            QualityTime: 1000,
-        },
-        {
-            date: '20 Dec 2025',
-            Logistics: 45,
-            Maintenance: 30,
-            Production: 15,
-            Quality: 8,
-
-            // Time data
-            LogisticsTime: 11000,
-            MaintenanceTime: 5000,
-            ProductionTime: 3000,
-            QualityTime: 1500,
-        }
-    ];
+    useEffect(() => {
+        const fetchHomeSummary = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const url = import.meta.env.DEV
+                    ? '/dashboard/home-summary'
+                    : `${DASHBOARD_BASE_URL}/dashboard/home-summary`;
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({}),
+                });
+                if (!res.ok) {
+                    const errText = await res.text();
+                    throw new Error(errText || `HTTP ${res.status}`);
+                }
+                const json = await res.json();
+                setData(mapApiResponseToChartData(json));
+            } catch (err) {
+                setError(err.message || 'Failed to load dashboard data');
+                setData([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchHomeSummary();
+    }, []);
 
     // Custom tooltips to match the grey box style in screenshot
     const CustomTooltip = ({ active, payload, label }) => {
@@ -75,6 +85,30 @@ const Dashboard = () => {
         }
         return null;
     };
+
+    if (loading) {
+        return (
+            <div className="dashboard-home-charts">
+                <div className="charts-header">
+                    <h1>Mercedes-Benz India</h1>
+                    <h2>PRODUCTION STATUS</h2>
+                </div>
+                <div className="chart-loading">Loading dashboard data...</div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="dashboard-home-charts">
+                <div className="charts-header">
+                    <h1>Mercedes-Benz India</h1>
+                    <h2>PRODUCTION STATUS</h2>
+                </div>
+                <div className="chart-error">Error: {error}</div>
+            </div>
+        );
+    }
 
     return (
         <div className="dashboard-home-charts">

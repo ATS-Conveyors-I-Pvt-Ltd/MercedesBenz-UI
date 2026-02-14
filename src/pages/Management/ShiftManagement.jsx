@@ -52,11 +52,32 @@ const ShiftManagement = () => {
     }
   };
 
+  // Normalize time string for HTML input type="time" (expects HH:mm)
+  const toTimeInputValue = (val) => {
+    if (val == null || val === "") return "";
+    const s = String(val);
+    return s.length >= 5 ? s.substring(0, 5) : s; // "09:00:00" -> "09:00"
+  };
+
   // =========================
   // Open Edit Popup
   // =========================
   const handleEdit = (shift) => {
-    setEditShift({ ...shift });
+    setEditShift({
+      ...shift,
+      shiftName: shift.shiftName ?? "",
+      shiftDescription: shift.shiftDescription ?? "",
+      shiftStartTime: toTimeInputValue(shift.shiftStartTime),
+      shiftEndTime: toTimeInputValue(shift.shiftEndTime),
+      breakfastStartTime: toTimeInputValue(shift.breakfastStartTime),
+      breakfastEndTime: toTimeInputValue(shift.breakfastEndTime),
+      lunchStartTime: toTimeInputValue(shift.lunchStartTime),
+      lunchEndTime: toTimeInputValue(shift.lunchEndTime),
+      snackStartTime: toTimeInputValue(shift.snackStartTime),
+      snackEndTime: toTimeInputValue(shift.snackEndTime),
+      dinnerStartTime: toTimeInputValue(shift.dinnerStartTime),
+      dinnerEndTime: toTimeInputValue(shift.dinnerEndTime),
+    });
     setIsAddMode(false);
     setErrorMessage("");
     setNameError("");
@@ -90,20 +111,21 @@ const ShiftManagement = () => {
 
   const isAddFormValid = () => {
     if (!editShift) return false;
+    const s = (v) => (v ?? "").toString().trim();
 
     return (
-      editShift.shiftName.trim() !== "" &&
-      editShift.shiftDescription.trim() !== "" &&
-      editShift.shiftStartTime !== "" &&
-      editShift.shiftEndTime !== "" &&
-      editShift.breakfastStartTime !== "" &&
-      editShift.breakfastEndTime !== "" &&
-      editShift.lunchStartTime !== "" &&
-      editShift.lunchEndTime !== "" &&
-      editShift.snackStartTime !== "" &&
-      editShift.snackEndTime !== "" &&
-      editShift.dinnerStartTime !== "" &&
-      editShift.dinnerEndTime !== "" &&
+      s(editShift.shiftName) !== "" &&
+      s(editShift.shiftDescription) !== "" &&
+      s(editShift.shiftStartTime) !== "" &&
+      s(editShift.shiftEndTime) !== "" &&
+      s(editShift.breakfastStartTime) !== "" &&
+      s(editShift.breakfastEndTime) !== "" &&
+      s(editShift.lunchStartTime) !== "" &&
+      s(editShift.lunchEndTime) !== "" &&
+      s(editShift.snackStartTime) !== "" &&
+      s(editShift.snackEndTime) !== "" &&
+      s(editShift.dinnerStartTime) !== "" &&
+      s(editShift.dinnerEndTime) !== "" &&
       nameError === "" // disable save if frontend duplicate exists
     );
   };
@@ -210,12 +232,14 @@ const ShiftManagement = () => {
                     <td className="col-action">
                       <div className="action-btn-group">
                         <button
+                          type="button"
                           className="action-btn edit"
                           onClick={() => handleEdit(shift)}
                         >
                           <Edit className="action-icon" />
                         </button>
                         <button
+                          type="button"
                           className="action-btn delete"
                           onClick={() => handleDelete(shift.shiftId)}
                         >
@@ -252,7 +276,7 @@ const ShiftManagement = () => {
                   <input
                     type="text"
                     name="shiftName"
-                    value={editShift.shiftName}
+                    value={editShift.shiftName ?? ""}
                     onChange={handleChange}
                     style={{ borderColor: nameError ? "red" : undefined }}
                   />
@@ -262,7 +286,7 @@ const ShiftManagement = () => {
                   <input
                     type="text"
                     name="shiftDescription"
-                    value={editShift.shiftDescription}
+                    value={editShift.shiftDescription ?? ""}
                     onChange={handleChange}
                   />
                 </label>
@@ -275,7 +299,7 @@ const ShiftManagement = () => {
                   <input
                     type="time"
                     name="shiftStartTime"
-                    value={editShift.shiftStartTime}
+                    value={editShift.shiftStartTime ?? ""}
                     onChange={handleChange}
                   />
                 </label>
@@ -284,7 +308,7 @@ const ShiftManagement = () => {
                   <input
                     type="time"
                     name="shiftEndTime"
-                    value={editShift.shiftEndTime}
+                    value={editShift.shiftEndTime ?? ""}
                     onChange={handleChange}
                   />
                 </label>
@@ -296,7 +320,7 @@ const ShiftManagement = () => {
                   <input
                     type="time"
                     name="breakfastStartTime"
-                    value={editShift.breakfastStartTime}
+                    value={editShift.breakfastStartTime ?? ""}
                     onChange={handleChange}
                   />
                 </label>
@@ -305,7 +329,7 @@ const ShiftManagement = () => {
                   <input
                     type="time"
                     name="breakfastEndTime"
-                    value={editShift.breakfastEndTime}
+                    value={editShift.breakfastEndTime ?? ""}
                     onChange={handleChange}
                   />
                 </label>
@@ -317,7 +341,7 @@ const ShiftManagement = () => {
                   <input
                     type="time"
                     name="lunchStartTime"
-                    value={editShift.lunchStartTime}
+                    value={editShift.lunchStartTime ?? ""}
                     onChange={handleChange}
                   />
                 </label>
@@ -326,7 +350,7 @@ const ShiftManagement = () => {
                   <input
                     type="time"
                     name="lunchEndTime"
-                    value={editShift.lunchEndTime}
+                    value={editShift.lunchEndTime ?? ""}
                     onChange={handleChange}
                   />
                 </label>
@@ -338,7 +362,7 @@ const ShiftManagement = () => {
                   <input
                     type="time"
                     name="snackStartTime"
-                    value={editShift.snackStartTime}
+                    value={editShift.snackStartTime ?? ""}
                     onChange={handleChange}
                   />
                 </label>
@@ -347,7 +371,7 @@ const ShiftManagement = () => {
                   <input
                     type="time"
                     name="snackEndTime"
-                    value={editShift.snackEndTime}
+                    value={editShift.snackEndTime ?? ""}
                     onChange={handleChange}
                   />
                 </label>
@@ -359,7 +383,7 @@ const ShiftManagement = () => {
                   <input
                     type="time"
                     name="dinnerStartTime"
-                    value={editShift.dinnerStartTime}
+                    value={editShift.dinnerStartTime ?? ""}
                     onChange={handleChange}
                   />
                 </label>
@@ -368,7 +392,7 @@ const ShiftManagement = () => {
                   <input
                     type="time"
                     name="dinnerEndTime"
-                    value={editShift.dinnerEndTime}
+                    value={editShift.dinnerEndTime ?? ""}
                     onChange={handleChange}
                   />
                 </label>

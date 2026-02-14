@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Search, Edit } from 'lucide-react';
 import './Breakdown.css';
 
-const API_BASE = 'http://localhost:8909/api';
+import { BASE_URL } from '../../constants';
 
 const formatDateTime = (dateStr, timeStr) => {
   const datePart = dateStr ? new Date(dateStr).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
@@ -40,7 +40,7 @@ const BreakdownManagement = () => {
   useEffect(() => {
     const fetchLines = async () => {
       try {
-        const res = await fetch(`${API_BASE}/lines`);
+        const res = await fetch(`${BASE_URL}/lines`);
         if (res.ok) {
           const json = await res.json();
           setLines(Array.isArray(json) ? json : []);
@@ -51,7 +51,7 @@ const BreakdownManagement = () => {
     };
     const fetchShifts = async () => {
       try {
-        const res = await fetch(`${API_BASE}/shifts`);
+        const res = await fetch(`${BASE_URL}/shifts`);
         if (res.ok) {
           const json = await res.json();
           setShifts(Array.isArray(json) ? json : []);
@@ -73,7 +73,7 @@ const BreakdownManagement = () => {
       if (toDate) params.set('toDate', toDate);
       if (lineId) params.set('lineId', lineId);
       if (shiftId) params.set('shiftId', shiftId);
-      const res = await fetch(`${API_BASE}/breakdown-details?${params.toString()}`);
+      const res = await fetch(`${BASE_URL}/breakdown-details?${params.toString()}`);
       if (!res.ok) throw new Error('Failed to load breakdown details');
       const json = await res.json();
       const rows = Array.isArray(json) ? json.map(mapApiRowToTableRow) : [];
@@ -110,7 +110,7 @@ const BreakdownManagement = () => {
     setError(null);
     try {
       const params = new URLSearchParams({ supervisorComments: editComments });
-      const res = await fetch(`${API_BASE}/breakdown-details/${editingId}?${params}`, { method: 'PUT' });
+      const res = await fetch(`${BASE_URL}/breakdown-details/${editingId}?${params}`, { method: 'PUT' });
       if (!res.ok) throw new Error('Failed to update supervisor comments');
       const updated = await res.json();
       setData((prev) =>

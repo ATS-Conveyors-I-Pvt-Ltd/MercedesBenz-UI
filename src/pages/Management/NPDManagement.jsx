@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './NPD.css';
 
-const API_BASE = 'http://localhost:8909/api';
+import { BASE_URL } from '../../constants';
 
 const NPDManagement = () => {
   const [days, setDays] = useState([]);
@@ -22,7 +22,7 @@ const NPDManagement = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`${API_BASE}/npd/days`);
+        const res = await fetch(`${BASE_URL}/npd/days`);
         if (!res.ok) throw new Error('Failed to load NPD days');
         const data = await res.json();
         setDays(data || []);
@@ -44,7 +44,7 @@ const NPDManagement = () => {
       const on = turnOn === true;
       const params = new URLSearchParams({ on: on });
       const res = await fetch(
-        `${API_BASE}/npd/days/${encodeURIComponent(npdDay)}/status?${params}`,
+        `${BASE_URL}/npd/days/${encodeURIComponent(npdDay)}/status?${params}`,
         { method: 'PUT' }
       );
       if (!res.ok) throw new Error('Failed to update NPD status');
@@ -88,7 +88,7 @@ const NPDManagement = () => {
     setError(null);
     setAddSuccess(null);
     try {
-      const res = await fetch(`${API_BASE}/master/npd`, {
+      const res = await fetch(`${BASE_URL}/master/npd`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Search, Edit } from 'lucide-react';
 import './Actual.css';
 
-const API_BASE = 'http://localhost:8909/api';
+import { BASE_URL } from '../../constants';
 
 const formatDate = (dateStr) => {
   if (!dateStr) return '';
@@ -27,7 +27,7 @@ const ActualManagement = () => {
   useEffect(() => {
     const fetchLines = async () => {
       try {
-        const res = await fetch(`${API_BASE}/lines`);
+        const res = await fetch(`${BASE_URL}/lines`);
         if (res.ok) {
           const data = await res.json();
           setLines(Array.isArray(data) ? data : []);
@@ -38,7 +38,7 @@ const ActualManagement = () => {
     };
     const fetchShifts = async () => {
       try {
-        const res = await fetch(`${API_BASE}/shifts`);
+        const res = await fetch(`${BASE_URL}/shifts`);
         if (res.ok) {
           const data = await res.json();
           setShifts(Array.isArray(data) ? data : []);
@@ -60,7 +60,7 @@ const ActualManagement = () => {
       if (toDate) params.set('toDate', toDate);
       if (lineId) params.set('lineId', lineId);
       if (shiftId) params.set('shiftId', shiftId);
-      const res = await fetch(`${API_BASE}/actual?${params.toString()}`);
+      const res = await fetch(`${BASE_URL}/actual?${params.toString()}`);
       if (!res.ok) throw new Error('Failed to load productions');
       const data = await res.json();
       setProductions(Array.isArray(data) ? data : []);
@@ -102,7 +102,7 @@ const ActualManagement = () => {
     setError(null);
     try {
       const params = new URLSearchParams({ actual: actualNum });
-      const res = await fetch(`${API_BASE}/actual/${editingId}?${params}`, { method: 'PUT' });
+      const res = await fetch(`${BASE_URL}/actual/${editingId}?${params}`, { method: 'PUT' });
       if (!res.ok) throw new Error('Failed to update actual');
       const updated = await res.json();
       setProductions((prev) =>

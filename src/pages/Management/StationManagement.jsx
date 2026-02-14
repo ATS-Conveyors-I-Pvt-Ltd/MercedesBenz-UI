@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Network, Edit } from 'lucide-react';
 import './Station.css';
 
-const API_BASE = 'http://localhost:8909/api';
+import { BASE_URL } from '../../constants';
 
 // Map UI tab labels to backend line IDs
 const LINE_ID_MAP = {
@@ -39,7 +39,7 @@ const StationManagement = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`${API_BASE}/stations/line/${lineId}`);
+        const res = await fetch(`${BASE_URL}/stations/line/${lineId}`);
         if (!res.ok) {
           throw new Error(`Failed to load stations for ${activeTab}`);
         }
@@ -76,7 +76,7 @@ const StationManagement = () => {
     try {
       const params = new URLSearchParams({ stationName: editDescription });
       const res = await fetch(
-        `${API_BASE}/stations/${editingStationId}?${params.toString()}`,
+        `${BASE_URL}/stations/${editingStationId}?${params.toString()}`,
         {
           method: 'PUT',
         }

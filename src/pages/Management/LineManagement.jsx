@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Edit } from 'lucide-react';
 import './Line.css';
 
-const API_BASE = 'http://localhost:8909/api';
+import { BASE_URL } from '../../constants';
 
 const LineManagement = () => {
   const [lines, setLines] = useState([]);
@@ -17,7 +17,7 @@ const LineManagement = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`${API_BASE}/lines`);
+        const res = await fetch(`${BASE_URL}/lines`);
         if (!res.ok) throw new Error('Failed to load lines');
         const data = await res.json();
         setLines(data || []);
@@ -55,7 +55,7 @@ const LineManagement = () => {
     setError(null);
     try {
       const params = new URLSearchParams({ autoIndexTime: timeNum });
-      const res = await fetch(`${API_BASE}/lines/${editingLineId}?${params}`, {
+      const res = await fetch(`${BASE_URL}/lines/${editingLineId}?${params}`, {
         method: 'PUT',
       });
       if (!res.ok) throw new Error('Failed to update line');

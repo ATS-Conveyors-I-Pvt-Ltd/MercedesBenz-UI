@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Edit } from 'lucide-react';
+import { BASE_URL } from '../../constants';
 import './Target.css';
-
-const API_BASE = 'http://localhost:8909/api';
 
 const LINE_ID_MAP = {
   'Trim 4': 1,
@@ -37,7 +36,7 @@ const TargetManagement = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`${API_BASE}/line-target/line/${lineId}`);
+        const res = await fetch(`${BASE_URL}/line-target/line/${lineId}`);
         if (!res.ok) throw new Error('Failed to load targets');
         const data = await res.json();
         setTargets(Array.isArray(data) ? data : []);
@@ -76,7 +75,7 @@ const TargetManagement = () => {
     setError(null);
     try {
       const params = new URLSearchParams({ target: targetNum });
-      const res = await fetch(`${API_BASE}/line-target/${editingId}?${params}`, {
+      const res = await fetch(`${BASE_URL}/line-target/${editingId}?${params}`, {
         method: 'PUT',
       });
       if (!res.ok) throw new Error('Failed to update target');

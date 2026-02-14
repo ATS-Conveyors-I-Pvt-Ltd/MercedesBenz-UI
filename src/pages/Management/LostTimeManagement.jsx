@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Search, Edit } from 'lucide-react';
 import './LostTime.css';
 
-const API_BASE = 'http://localhost:8909/api';
+import { BASE_URL } from '../../constants';
 
 const formatDate = (dateStr) => {
   if (!dateStr) return '';
@@ -45,7 +45,7 @@ const LostTimeManagement = () => {
   useEffect(() => {
     const fetchLines = async () => {
       try {
-        const res = await fetch(`${API_BASE}/lines`);
+        const res = await fetch(`${BASE_URL}/lines`);
         if (res.ok) {
           const data = await res.json();
           setLines(Array.isArray(data) ? data : []);
@@ -56,7 +56,7 @@ const LostTimeManagement = () => {
     };
     const fetchShifts = async () => {
       try {
-        const res = await fetch(`${API_BASE}/shifts`);
+        const res = await fetch(`${BASE_URL}/shifts`);
         if (res.ok) {
           const data = await res.json();
           setShifts(Array.isArray(data) ? data : []);
@@ -78,7 +78,7 @@ const LostTimeManagement = () => {
       if (toDate) params.set('toDate', toDate);
       if (lineId) params.set('lineId', lineId);
       if (shiftId) params.set('shiftId', shiftId);
-      const res = await fetch(`${API_BASE}/lost-time?${params.toString()}`);
+      const res = await fetch(`${BASE_URL}/lost-time?${params.toString()}`);
       if (!res.ok) throw new Error('Failed to load productions');
       const data = await res.json();
       setProductions(Array.isArray(data) ? data : []);
@@ -115,7 +115,7 @@ const LostTimeManagement = () => {
     setError(null);
     try {
       const params = new URLSearchParams({ lossTimeSec: secs });
-      const res = await fetch(`${API_BASE}/lost-time/${editingId}?${params}`, { method: 'PUT' });
+      const res = await fetch(`${BASE_URL}/lost-time/${editingId}?${params}`, { method: 'PUT' });
       if (!res.ok) throw new Error('Failed to update lost time');
       const updated = await res.json();
       setProductions((prev) =>

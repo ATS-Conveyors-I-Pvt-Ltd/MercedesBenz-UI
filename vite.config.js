@@ -8,6 +8,7 @@ export default defineConfig({
     proxy: {
       '/api/breakdownReports': { target: 'http://localhost:8090', changeOrigin: true },
       '/api/breakdownReasonReports': { target: 'http://localhost:8090', changeOrigin: true },
+      '/dashboard': { target: 'http://localhost:8085', changeOrigin: true },
     },
   },
 })

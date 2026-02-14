@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from "axios";
+
 
 const AuthContext = createContext();
 
@@ -6,13 +8,16 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
-    const [loading, setLoading] = useState(true);
 
-    // Hardcoded Admin
-    const ADMIN_CREDS = {
-        email: 'admin@MB',
-        password: 'Admin@'
-    };
+    const STORAGE_CURRENT_USER = "am_current_user_v1";
+    // const [loading, setIsLoading] = useState(true);
+     const [isLoading, setIsLoading] = useState(true);
+
+    // // Hardcoded Admin
+    // const ADMIN_CREDS = {
+    //     email: 'admin@MB',
+    //     password: 'Admin@'
+    // };
 
     // Services list for permissions
     const SERVICES = ['Andon', 'Breakdown', 'Management', 'Reports', 'Auth'];
@@ -31,7 +36,7 @@ export const AuthProvider = ({ children }) => {
         if (storedUser) {
             setCurrentUser(JSON.parse(storedUser));
         }
-        setLoading(false);
+        setIsLoading(false);
     }, []);
 
     // Activity Logs
@@ -111,40 +116,55 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('mb_users', JSON.stringify(users));
     }, [users]);
 
-    const login = (loginId, password) => {
-        // Check hardcoded admin first (or find in users array)
-        // Login ID can be username or email
-        const user = users.find(u => (u.username === loginId || u.email === loginId) && u.password === password);
+const login = async (userName, userPassword) => {
+setIsLoading(true);
 
-        if (user) {
-            if (user.status !== 'approved') {
-                throw new Error("Account is pending approval or rejected.");
-            }
-            // No session timeout: simple persistent storage
-            localStorage.setItem('mb_user', JSON.stringify(user));
-            setCurrentUser(user);
-            logActivity(user, 'Login', 'User logged in successfully');
+  debugger
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/login/authenticate",
+      null,
+      {
+        params: {
+          userName,
+          userPassword,
+        },
+      }
+    );
 
-            // Send email notification to admin
-            fetch('http://localhost:3001/api/notify-login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    user: {
-                        name: user.name,
-                        username: user.username,
-                        email: user.email,
-                        role: user.role
-                    },
-                    ipAddress: 'Local Network' // You could use a service to get real IP
-                })
-            }).catch(err => console.log('Email notification failed:', err.message));
+    console.log("Login Success:", response.data);
+const user = response.data;
+   
+    // ✅ IMPORTANT
+    setCurrentUser(user);
+    localStorage.setItem(STORAGE_CURRENT_USER, JSON.stringify(user));
+    localStorage.setItem("token", user.token);
 
-            return user;
-        } else {
-            throw new Error("Invalid Login ID or password.");
-        }
-    };
+
+    alert("Login Successful ✅");
+
+    return { success: true, user };
+
+  } catch (err) {
+    console.error("Login error:", err);
+
+    if (err.response?.status === 401) {
+      alert("Invalid credentials ❌");
+      return { success: false, message: "Invalid credentials" };
+    }
+
+    if (err.response?.status === 403) {
+      alert("Account not approved ❌");
+      return { success: false, message: "Account not approved" };
+    }
+
+    alert("Server error ❌");
+    return { success: false, message: "Server error" };
+
+  } finally {
+    setIsLoading(false);
+  }
+};
 
     const signup = (userDetails) => {
         const exists = users.find(u => u.username === userDetails.username || u.email === userDetails.email);
@@ -255,7 +275,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={value}>
-            {!loading && children}
+            {!isLoading && children}
         </AuthContext.Provider>
     );
 };

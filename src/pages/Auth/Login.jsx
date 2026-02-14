@@ -4,29 +4,30 @@ import { useNavigate, Link } from 'react-router-dom';
 import './Auth.css';
 
 const Login = () => {
-    const [loginId, setLoginId] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const { login } = useAuth();
+    const [userName, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const navigate = useNavigate();
+    const { login } = useAuth();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
-        try {
-            login(loginId, password);
-            // Use plain window location to ensure full app reload/reset if needed, 
-            // but normal navigate is better for SPA. 
-            // However, with our LoadingScreen logic in App.jsx, a refresh is nice.
-            //  window.location.href = '/'; 
-            navigate('/');
-        } catch (err) {
-            setError(err.message);
-        }
-    };
+        setError("");
 
-    const handleAdminFill = () => {
-        setLoginId('admin@MB');
+        if (!userName || !password) {
+            setError("Please enter both userName and password");
+            return;
+        }
+
+        const result = await login(userName, password);
+
+         console.log("LOGIN RESULT:", result);
+        if (result.success) {
+            navigate("/dashboard");
+
+        } else {
+            setError(result.message || "Invalid credentials");
+        }
     };
 
     return (
@@ -41,15 +42,12 @@ const Login = () => {
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <label>Login ID</label>
-                            <button type="button" onClick={handleAdminFill} style={{ background: 'none', border: 'none', color: '#00aad2', fontSize: '0.8rem', cursor: 'pointer', padding: 0 }}>Login as Admin</button>
-                        </div>
+                    
                         <input
                             type="text"
                             className="auth-input"
-                            value={loginId}
-                            onChange={(e) => setLoginId(e.target.value)}
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value)}
                             placeholder="admin@MB"
                             required
                         />

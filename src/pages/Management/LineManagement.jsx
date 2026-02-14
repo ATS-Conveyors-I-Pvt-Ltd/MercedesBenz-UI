@@ -1,25 +1,83 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Edit } from 'lucide-react';
 import './Line.css';
 
+const API_BASE = 'http://localhost:8909/api';
+
 const LineManagement = () => {
-  // Screenshot 3 show a table with input fields for "LINE AUTOINDEXING TIME"
-  const lines = [
-    { id: 1, name: 'Trim 4', time: 117 },
-    { id: 2, name: 'Trim 5', time: 117 },
-    { id: 3, name: 'Trim 6', time: 110 },
-    { id: 4, name: 'Mech 3', time: 117 },
-    { id: 5, name: 'Mech 4', time: 151 },
-    { id: 6, name: 'Mech 5', time: 150 },
-    { id: 7, name: 'Finish 1', time: 117 },
-    { id: 8, name: 'Finish 2', time: 117 },
-  ];
+  const [lines, setLines] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [editingLineId, setEditingLineId] = useState(null);
+  const [editTime, setEditTime] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    const fetchLines = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch(`${API_BASE}/lines`);
+        if (!res.ok) throw new Error('Failed to load lines');
+        const data = await res.json();
+        setLines(data || []);
+      } catch (e) {
+        console.error(e);
+        setLines([]);
+        setError(e.message || 'Failed to load lines');
+      } finally {
+        setLoading(false);
+        setEditingLineId(null);
+        setEditTime('');
+      }
+    };
+    fetchLines();
+  }, []);
+
+  const startEdit = (line) => {
+    setEditingLineId(line.lineId);
+    setEditTime(line.autoIndexTime != null ? String(line.autoIndexTime) : '');
+  };
+
+  const cancelEdit = () => {
+    setEditingLineId(null);
+    setEditTime('');
+  };
+
+  const saveEdit = async () => {
+    if (editingLineId == null) return;
+    const timeNum = parseInt(editTime, 10);
+    if (Number.isNaN(timeNum) || timeNum < 0) {
+      setError('Enter a valid number (seconds)');
+      return;
+    }
+    setSaving(true);
+    setError(null);
+    try {
+      const params = new URLSearchParams({ autoIndexTime: timeNum });
+      const res = await fetch(`${API_BASE}/lines/${editingLineId}?${params}`, {
+        method: 'PUT',
+      });
+      if (!res.ok) throw new Error('Failed to update line');
+      const updated = await res.json();
+      setLines((prev) =>
+        prev.map((l) => (l.lineId === updated.lineId ? updated : l))
+      );
+      setEditingLineId(null);
+      setEditTime('');
+    } catch (e) {
+      console.error(e);
+      setError(e.message || 'Failed to update line');
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <div className="management-container">
       <div className="management-header">
         <div className="header-title-section">
-          <h2>MANAGE LINE <span className="header-subtitle">line details and more</span></h2>
+          <h2>MANAGE LINE</h2>
         </div>
         <div className="header-brand">Mercedes-Benz India</div>
       </div>
@@ -36,22 +94,80 @@ const LineManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {lines.map((line, index) => (
-                <tr key={index}>
-                  <td className="col-id">{line.id}</td>
-                  <td>{line.name}</td>
-                  <td>
-                    <input type="text" className="table-input" defaultValue={line.time} />
-                  </td>
-                  <td className="col-action">
-                    <div className="action-btn-group">
-                      <button className="action-btn edit">
-                        <Edit className="action-icon" />
-                      </button>
-                    </div>
+              {loading && (
+                <tr>
+                  <td colSpan={4} className="col-loading">
+                    Loading lines...
                   </td>
                 </tr>
-              ))}
+              )}
+              {error && !loading && (
+                <tr>
+                  <td colSpan={4} className="col-error">
+                    {error}
+                  </td>
+                </tr>
+              )}
+              {!loading && !error && lines.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="col-empty">
+                    No lines configured.
+                  </td>
+                </tr>
+              )}
+              {!loading &&
+                !error &&
+                lines.map((line, index) => {
+                  const isEditing = editingLineId === line.lineId;
+                  return (
+                    <tr key={line.lineId ?? index}>
+                      <td className="col-id">{index + 1}</td>
+                      <td>{line.lineName}</td>
+                      <td>
+                        {isEditing ? (
+                          <input
+                            type="number"
+                            min="0"
+                            className="table-input"
+                            value={editTime}
+                            onChange={(e) => setEditTime(e.target.value)}
+                          />
+                        ) : (
+                          line.autoIndexTime ?? '-'
+                        )}
+                      </td>
+                      <td className="col-action">
+                        <div className="action-btn-group">
+                          {isEditing ? (
+                            <>
+                              <button
+                                className="action-btn save"
+                                onClick={saveEdit}
+                                disabled={saving}
+                              >
+                                {saving ? 'Saving...' : 'Update'}
+                              </button>
+                              <button
+                                className="action-btn cancel"
+                                onClick={cancelEdit}
+                                disabled={saving}
+                              >
+                                Cancel
+                              </button>
+                            </>
+                          ) : (
+                            <button
+                              className="action-btn edit"
+                              onClick={() => startEdit(line)}
+                            >
+                              <Edit className="action-icon" />
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>

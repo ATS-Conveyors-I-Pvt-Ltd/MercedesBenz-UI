@@ -5,26 +5,18 @@
 
 .main-content-wrapper {
     margin-left: 280px;
-    /* Default sidebar width */
+    width: calc(100% - 280px);
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     background-color: #f4f7f6;
     min-height: 100vh;
-    transition: margin-left 0.3s ease-in-out;
+    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
 }
-
-/* When sidebar is collapsed (using a class on the wrapper or body if we were managing state globally, 
-   but since state is local to sidebar, we might need a context or verify this. 
-   For now, if sidebar is absolute/fixed and off-canvas, we can set margin-left to 0 by default 
-   and only add it if we knew sidebar state. 
-   
-   HOWEVER, to follow the request "click to expand", usually means the initial state is collapsed aka full width.
-   Let's assume we want full width by default if sidebar is hidden.
-*/
 
 .main-content-wrapper.full-width {
     margin-left: 0;
+    width: 100%;
 }
 
 .content-area {

@@ -171,7 +171,8 @@ const Sidebar = ({ isOpen, toggle }) => {
               {currentUser?.role === 'admin' && (
                 <NavLink to="/reports/audit-trail" onClick={() => handleNavClick('Reports', 'Audit Trail')}>Audit Trail</NavLink>
               )}
-              <NavLink to="/stakeholder" onClick={() => handleNavClick('Reports', 'Stakeholder')}>Stakeholder</NavLink>
+              <NavLink to="/stakeholder-dashboard" onClick={() => handleNavClick('Reports', 'Stakeholder Dashboard')}>Stakeholder Dashboard</NavLink>
+              <NavLink to="/stakeholder-report" onClick={() => handleNavClick('Reports', 'Stakeholder Report')}>Stakeholder Report</NavLink>
               <NavLink to="/stakeholder-reason" onClick={() => handleNavClick('Reports', 'Stakeholder Reason')}>Stakeholder Reason</NavLink>
             </div>
 

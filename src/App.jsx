@@ -34,8 +34,11 @@ import BreakdownManagement from './pages/Management/BreakdownManagement';
 
 import ScreenPlaceholder from './pages/ScreenPlaceholder';
 import AccessMatrix from './pages/Auth/AccessMatrix';
+import ManageUsers from './pages/Auth/ManageUsers';
+import ManageRoles from './pages/Auth/ManageRoles';
 import AuditTrail from './pages/Reports/AuditTrail';
 import StakeholderReason from './pages/Stakeholder/StakeholderReason';
+import StakeholderReport from './pages/Stakeholder/StakeholderReport';
 
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Auth/Login';
@@ -112,14 +115,13 @@ const AppContent = () => {
 
           {/* Authorization Routes */}
           <Route path="auth/access-matrix" element={<AccessMatrix />} />
-          <Route path="auth/users" element={<ScreenPlaceholder title="Manage Users (Auth)" />} />
-          <Route path="auth/roles" element={<ScreenPlaceholder title="Manage Roles (Auth)" />} />
+          <Route path="auth/users" element={<ManageUsers />} />
+          <Route path="auth/roles" element={<ManageRoles />} />
 
           {/* Reports Routes */}
-          <Route path="reports/infeed" element={<ScreenPlaceholder title="Infeed Report" />} />
           <Route path="reports/audit-trail" element={<AuditTrail />} />
 
-          <Route path="stakeholder" element={<ScreenPlaceholder title="Stakeholder" />} />
+          <Route path="stakeholder" element={<StakeholderReport />} />
           <Route path="stakeholder-reason" element={<StakeholderReason />} />
 
           {/* Catch all */}

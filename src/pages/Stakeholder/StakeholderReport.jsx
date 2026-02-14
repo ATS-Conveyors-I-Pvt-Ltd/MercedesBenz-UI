@@ -24,12 +24,7 @@ const formatStakeholder = (val) => {
   return String(val).trim().replace(/[.\s]+$/, '') || '—';
 };
 
-const formatReason = (val) => {
-  if (!val) return '—';
-  return String(val).trim() || '—';
-};
-
-const StakeholderReason = () => {
+const StakeholderReport = () => {
   const [lines, setLines] = useState([]);
   const [shifts, setShifts] = useState([]);
   const [fromDate, setFromDate] = useState('');
@@ -91,7 +86,7 @@ const StakeholderReason = () => {
         lineId: lineId ? Number(lineId) : null,
         shiftId: shiftId ? Number(shiftId) : null,
       };
-      const res = await fetch(`${REPORTS_BASE_URL}/api/breakdownReasonReports/search`, {
+      const res = await fetch(`${REPORTS_BASE_URL}/api/breakdownReports/search`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -101,16 +96,15 @@ const StakeholderReason = () => {
         throw new Error(errText || 'Failed to load report');
       }
       const json = await res.json();
-      const raw = json?.data || json;
-      const data = Array.isArray(raw) ? raw[0] : raw;
+      const data = json?.data || json;
       setReport({
-        alarmCountByStakeholder: data?.alarmCountByStakeholder || {},
-        totalTimeByStakeholder: data?.totalTimeByStakeholder || {},
-        reportRows: data?.reportRows || [],
+        alarmCountByStakeholder: data.alarmCountByStakeholder || {},
+        totalTimeByStakeholder: data.totalTimeByStakeholder || {},
+        reportRows: data.reportRows || [],
       });
     } catch (e) {
       console.error(e);
-      setError(e.message || 'Failed to load stakeholder reason report');
+      setError(e.message || 'Failed to load stakeholder report');
     } finally {
       setLoading(false);
     }
@@ -124,7 +118,7 @@ const StakeholderReason = () => {
         lineId: lineId ? Number(lineId) : null,
         shiftId: shiftId ? Number(shiftId) : null,
       };
-      const res = await fetch(`${REPORTS_BASE_URL}/api/breakdownReasonReports/export`, {
+      const res = await fetch(`${REPORTS_BASE_URL}/api/breakdownReports/export`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -134,7 +128,7 @@ const StakeholderReason = () => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'breakdown-reason-report.xlsx';
+      a.download = 'stakeholder-breakdown-report.xlsx';
       a.click();
       URL.revokeObjectURL(url);
     } catch (e) {
@@ -170,7 +164,7 @@ const StakeholderReason = () => {
     <div className="management-container">
       <div className="management-header">
         <div className="header-title-section">
-          <h2>STAKEHOLDER REASON REPORT</h2>
+          <h2>STAKEHOLDER REPORT</h2>
         </div>
         <div className="header-brand">Mercedes-Benz India</div>
       </div>
@@ -270,20 +264,19 @@ const StakeholderReason = () => {
           </div>
 
           <div className="stakeholder-table-section">
-            <h3 className="stakeholder-table-title">Stakeholder Reason Summary Report</h3>
+            <h3 className="stakeholder-table-title">Stakeholder Summary Report</h3>
             <div className="stakeholder-table-scroll">
               <div className="table-wrapper">
                 {loading ? (
                   <p style={{ padding: '24px', textAlign: 'center' }}>Loading...</p>
                 ) : (
-                  <table className="management-table stakeholder-table stakeholder-reason-table">
+                  <table className="management-table stakeholder-table">
                     <thead>
                       <tr>
                         <th className="col-id">#</th>
                         <th className="col-station-name">STATION NAME</th>
                         <th className="col-line-name">LINE NAME</th>
                         <th className="col-stakeholder">STAKEHOLDER</th>
-                        <th className="col-reason">REASON</th>
                         <th className="col-breakdown-date">BREAKDOWN DATE</th>
                         <th className="col-resume-date">RESUME DATE</th>
                         <th className="col-from-time">FROM TIME (HH:MM:SS)</th>
@@ -294,7 +287,7 @@ const StakeholderReason = () => {
                     <tbody>
                       {paginatedRows.length === 0 ? (
                         <tr>
-                          <td colSpan={10} className="col-empty" style={{ textAlign: 'center', padding: '24px' }}>
+                          <td colSpan={9} className="col-empty" style={{ textAlign: 'center', padding: '24px' }}>
                             No data found. Use filters and click Search.
                           </td>
                         </tr>
@@ -305,7 +298,6 @@ const StakeholderReason = () => {
                             <td className="col-station-name">{row.station ?? '—'}</td>
                             <td className="col-line-name">{row.lineName ?? '—'}</td>
                             <td className="col-stakeholder">{formatStakeholder(row.stakeholder)}</td>
-                            <td className="col-reason">{formatReason(row.reason)}</td>
                             <td className="col-breakdown-date">{formatDateDisplay(row.breakdownDate)}</td>
                             <td className="col-resume-date">{formatDateDisplay(row.breakdownDate)}</td>
                             <td className="col-from-time">{formatTimeDisplay(row.fromTime)}</td>
@@ -362,11 +354,11 @@ const StakeholderReason = () => {
 
       {!report && (
         <div className="stakeholder-empty-state">
-          <p>{loading ? 'Loading...' : 'Use the filters above and click Search to load the Stakeholder Reason Report.'}</p>
+          <p>{loading ? 'Loading...' : 'Use the filters above and click Search to load the Stakeholder Report.'}</p>
         </div>
       )}
     </div>
   );
 };
 
-export default StakeholderReason;
+export default StakeholderReport;

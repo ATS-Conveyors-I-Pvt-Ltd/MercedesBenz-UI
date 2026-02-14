@@ -124,7 +124,7 @@
 }
 
 .audit-table thead tr {
-    background: transparent;
+    background: #e8e9ea;
 }
 
 /* --- TABLE STYLES & COLUMNS --- */
@@ -136,7 +136,8 @@
     text-transform: uppercase;
     font-size: 11px;
     letter-spacing: 0.1em;
-    color: #64748b;
+    color: #333333;
+    background: #e8e9ea;
     border: none;
     vertical-align: middle;
 }
